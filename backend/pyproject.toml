@@ -1,0 +1,236 @@
+# ==== pytest ====
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--ds=config.settings.test --reuse-db --import-mode=importlib"
+python_files = [
+    "tests.py",
+    "test_*.py",
+]
+
+# ==== Coverage ====
+[tool.coverage.run]
+include = ["apps/**"]
+omit = ["*/migrations/*", "*/tests/*"]
+plugins = ["django_coverage_plugin"]
+
+# ==== mypy ====
+[tool.mypy]
+python_version = "3.13"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = [
+    "mypy_django_plugin.main",
+    "mypy_drf_plugin.main",
+]
+
+[[tool.mypy.overrides]]
+# Django migrations should not produce any errors:
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings.test"
+
+# ==== djLint ====
+# Balanced configuration for production-ready Django starter
+# Philosophy: Keep security & accessibility strict, relax style pedantry
+[tool.djlint]
+profile = "django"
+indent = 2
+max_line_length = 120
+max_attribute_length = 70
+
+# Formatting options
+blank_line_after_tag = "load,extends"
+close_void_tags = true
+format_css = true
+format_js = true
+preserve_blank_lines = true
+format_attribute_template_tags = false
+preserve_leading_space = true
+
+# Ignore overly pedantic rules while keeping important ones
+#
+# DISABLED RULES (too strict for starters):
+# H013 - img tag should have height/width (conflicts with responsive design)
+# H014 - More than 2 blank lines (readability flexibility)
+# H016 - Missing language attribute (handled by base template)
+# H017 - Avoid using <style> tags (useful in development)
+# H020 - Empty tag pairs (sometimes intentional)
+# H021 - Inline styles (required for email templates)
+# H023 - Entity references (&copy;, &nbsp;, etc. are valid HTML)
+# H024 - Omit entity references (conflicts with H023)
+# H030 - Consider adding meta description (not needed for email templates)
+# H031 - Missing meta description (SEO - not critical for starter)
+# H035 - Attributes should be ordered alphabetically (pointless nitpick)
+# T001 - Variables should be wrapped in whitespace (too strict)
+# T002 - Double quotes should be used in tags (has upstream bug)
+# T003 - Endblock should have name (not always necessary for small blocks)
+ignore = "H013,H014,H016,H017,H020,H021,H023,H024,H030,H031,H035,T001,T002,T003"
+
+# KEPT RULES (important for quality):
+# H006 - img tag missing alt attribute (accessibility) ✓
+# H025 - Tag seems to be an orphan (security) ✓
+# D018 - Internal links should use {% url %} tag (Django best practice) ✓
+
+# Linter output format
+linter_output_format = "{filename}:{line}: {code} {message}"
+
+[tool.djlint.css]
+indent_size = 2
+
+[tool.djlint.js]
+indent_size = 2
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+extend-exclude = [
+    "*/migrations/*.py",
+    "staticfiles/*",
+]
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "C90",
+    "I",
+    "N",
+    "UP",
+    "YTT",
+    # "ANN", # flake8-annotations: we should support this in the future but 100+ errors atm
+    "ASYNC",
+    "S",
+    "BLE",
+    "FBT",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "T10",
+    "DJ",
+    "EM",
+    "EXE",
+    "FA",
+    'ISC',
+    "ICN",
+    "G",
+    'INP',
+    'PIE',
+    "T20",
+    'PYI',
+    'PT',
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SLOT",
+    "SIM",
+    "TID",
+    "TC",
+    "INT",
+    # "ARG", # Unused function argument
+    "PTH",
+    "ERA",
+    "PD",
+    "PGH",
+    "PL",
+    "TRY",
+    "FLY",
+    # "NPY",
+    # "AIR",
+    "PERF",
+    # "FURB",
+    # "LOG",
+    "RUF",
+]
+ignore = [
+    "S101", # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
+    "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
+    "SIM102", # sometimes it's better to nest
+    # of types for comparison.
+    # Deactivated because it can make the code slow:
+    # https://github.com/astral-sh/ruff/issues/7871
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = [
+    "S105",     # Hardcoded password strings (safe in tests)
+    "S106",     # Hardcoded password arguments (safe in tests)
+    "PLR2004",  # Magic value comparisons (common in test assertions)
+    "PT018",    # Composite assertions (pytest allows compound assertions)
+]
+"config/settings/local.py" = [
+    "S104",     # Binding to 0.0.0.0 (safe in local development)
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[dependency-groups]
+dev = [
+    "coverage==7.11.0",
+    "django-coverage-plugin==3.2.0",
+    "django-debug-toolbar==6.0.0",
+    "django-extensions==4.1",
+    "django-stubs[compatible-mypy]==5.2.7",
+    "djangorestframework-stubs==3.16.5",
+    "djlint==1.36.4",
+    "factory-boy==3.3.2",
+    "ipdb==0.13.13",
+    "mypy==1.18.2",
+    "pre-commit==4.3.0",
+    "psycopg[c]==3.2.11",
+    "pytest==8.4.2",
+    "pytest-django==4.11.1",
+    "pytest-sugar==1.1.1",
+    "ruff==0.14.1",
+    "sphinx==8.2.3",
+    "sphinx-autobuild==2025.8.25",
+    "watchfiles==1.1.1",
+    "werkzeug[watchdog]==3.1.3",
+]
+
+[project]
+name = "project_slug"
+version = "0.1.0"
+description = "Behold My Awesome Project!"
+readme = "README.md"
+
+license = { text = "Not open source" }
+authors = [
+  { name = "Gojjo Tech", email = "admin@gojjotech.com" },
+]
+requires-python = "==3.13.*"
+dependencies = [
+    "argon2-cffi==25.1.0",
+    "celery==5.5.3",
+    "collectfasta==3.3.1",
+    "django==5.2.7",
+    "django-anymail[sendgrid]==13.1",
+    "django-celery-beat==2.8.1",
+    "django-cors-headers==4.9.0",
+    "django-environ==0.12.0",
+    "django-filter==25.2",
+    "django-model-utils==5.0.0",
+    "django-redis==6.0.0",
+    "django-storages[s3]==1.14.6",
+    "djangorestframework==3.16.1",
+    "djangorestframework-simplejwt==5.5.1",
+    "drf-spectacular==0.28.0",
+    "flower==2.0.1",
+    "gunicorn==23.0.0",
+    "hiredis==3.3.0",
+    "pillow==12.0.0",
+    "psycopg[c]==3.2.11",
+    "python-slugify==8.0.4",
+    "redis==6.4.0",
+    "sentry-sdk==2.42.1",
+    "uvicorn-worker==0.4.0",
+    "uvicorn[standard]==0.38.0",
+]
