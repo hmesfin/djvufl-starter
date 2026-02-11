@@ -41,10 +41,6 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Find email field
-      final emailField = find.byKey(const Key('email_field'));
-      // Note: In the actual implementation, we'd need to add keys to widgets
-
       // Test empty validation
       final loginButton = find.text('Login');
       await tester.tap(loginButton);
@@ -99,7 +95,7 @@ void main() {
       final loginButton = tester.widget<FilledButton>(
         find.text('Login'),
       );
-      expect(loginButton?.enabled, isTrue);
+      expect(loginButton.enabled, isTrue);
     });
 
     testWidgets('Email validator rejects invalid email', (WidgetTester tester) async {

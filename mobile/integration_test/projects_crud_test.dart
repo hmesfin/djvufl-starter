@@ -44,10 +44,6 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Find project name field
-      final nameField = find.widgetWithText(TextField);
-      // In the actual implementation, we'd need to add keys to widgets
-
       // Test empty validation
       final createButton = find.text('Create Project');
       await tester.tap(createButton);

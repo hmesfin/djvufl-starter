@@ -9,25 +9,21 @@ import 'package:mobile/features/projects/presentation/screens/projects_list_scre
 ///
 /// These tests verify end-to-end functionality across multiple screens and features.
 void main() {
-  testWidgets('App displays login screen when not authenticated', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: MyApp(),
-      ),
-    );
+  testWidgets('App displays login screen when not authenticated', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const ProviderScope(child: MyApp()));
 
     // The app should show the login screen initially
     expect(find.text('Welcome Back'), findsOneWidget);
     expect(find.text('Sign in to continue'), findsOneWidget);
   });
 
-  testWidgets('Login screen has email and password fields', (WidgetTester tester) async {
+  testWidgets('Login screen has email and password fields', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
-      const ProviderScope(
-        child: MaterialApp(
-          home: LoginScreen(),
-        ),
-      ),
+      const ProviderScope(child: MaterialApp(home: LoginScreen())),
     );
 
     // Verify email field exists
@@ -39,15 +35,15 @@ void main() {
     expect(find.text('Login'), findsOneWidget);
   });
 
-  testWidgets('Projects list screen has search bar', (WidgetTester tester) async {
+  testWidgets('Projects list screen has search bar', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
-      ProviderScope(
+      const ProviderScope(
         overrides: [
           // Override auth to simulate authenticated user
         ],
-        child: const MaterialApp(
-          home: ProjectsListScreen(),
-        ),
+        child: MaterialApp(home: ProjectsListScreen()),
       ),
     );
 
@@ -59,19 +55,13 @@ void main() {
   });
 
   testWidgets('App theme uses Material 3', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: MyApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: MyApp()));
 
     // Verify MaterialApp is being used
     expect(find.byType(MaterialApp), findsOneWidget);
 
     // Verify Material 3 theme is configured
-    final materialApp = tester.widget<MaterialApp>(
-      find.byType(MaterialApp),
-    );
-    expect(materialApp?.theme?.useMaterial3, isTrue);
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(materialApp.theme?.useMaterial3, isTrue);
   });
 }

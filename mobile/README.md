@@ -92,6 +92,7 @@ flutter build ios --release
 ### Code Generation
 
 This project uses code generation for:
+
 - Freezed models (immutable data classes)
 - JSON serialization
 - Riverpod providers
@@ -307,6 +308,7 @@ This Flutter app was migrated from the React Native version in `mobile_react_nat
 The React Native code is kept for reference during the migration.
 
 Key differences:
+
 - **State Management**: Zustand → Riverpod
 - **Navigation**: React Navigation → go_router
 - **Validation**: Zod → Freezed + custom validators

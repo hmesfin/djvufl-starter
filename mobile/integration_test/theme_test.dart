@@ -9,7 +9,9 @@ import 'package:mobile/core/theme/theme_notifier.dart';
 /// Tests theme configuration, theme mode switching, and theming functionality.
 void main() {
   group('Theme Configuration', () {
-    testWidgets('App has light and dark themes configured', (WidgetTester tester) async {
+    testWidgets('App has light and dark themes configured', (
+      WidgetTester tester,
+    ) async {
       // Test that both themes can be created without errors
       final lightTheme = AppTheme.lightTheme;
       final darkTheme = AppTheme.darkTheme;
@@ -22,7 +24,9 @@ void main() {
       expect(darkTheme.useMaterial3, isTrue);
     });
 
-    testWidgets('ThemeModeEnum correctly maps to ThemeMode', (WidgetTester tester) async {
+    testWidgets('ThemeModeEnum correctly maps to ThemeMode', (
+      WidgetTester tester,
+    ) async {
       // Test enum to ThemeMode mapping
       expect(ThemeModeEnum.light.toThemeMode(), ThemeMode.light);
       expect(ThemeModeEnum.dark.toThemeMode(), ThemeMode.dark);
@@ -37,33 +41,29 @@ void main() {
       expect(ThemeModeEnum.fromString('invalid'), ThemeModeEnum.system);
     });
 
-    testWidgets('ThemeNotifier provides initial state', (WidgetTester tester) async {
+    testWidgets('ThemeNotifier provides initial state', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            home: Container(),
-          ),
-        ),
+        ProviderScope(child: MaterialApp(home: Container())),
       );
 
       await tester.pumpAndSettle();
 
       // ThemeNotifier should provide ThemeMode (defaults to system initially)
-      final container = tester.widget<Container>(
-        find.byType(Container),
-      );
+      final container = tester.widget<Container>(find.byType(Container));
 
       expect(container, isNotNull);
     });
   });
 
   group('Theme Toggle', () {
-    testWidgets('Theme can be toggled between light and dark', (WidgetTester tester) async {
+    testWidgets('Theme can be toggled between light and dark', (
+      WidgetTester tester,
+    ) async {
       // Create a test widget that demonstrates theme toggling
       await tester.pumpWidget(
-        ProviderScope(
-          child: ThemeToggleTestWidget(),
-        ),
+        const ProviderScope(child: ThemeToggleTestWidget()),
       );
 
       await tester.pumpAndSettle();
@@ -86,12 +86,10 @@ void main() {
       expect(find.text('Toggle to Dark'), findsOneWidget);
     });
 
-    testWidgets('Theme mode persists across rebuilds', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          child: ThemeToggleTestWidget(),
-        ),
-      );
+    testWidgets('Theme mode persists across rebuilds', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(ProviderScope(child: ThemeToggleTestWidget()));
 
       await tester.pumpAndSettle();
 
@@ -103,11 +101,7 @@ void main() {
       expect(find.text('Current: Dark'), findsOneWidget);
 
       // Rebuild the widget (simulates app restart)
-      await tester.pumpWidget(
-        ProviderScope(
-          child: ThemeToggleTestWidget(),
-        ),
-      );
+      await tester.pumpWidget(ProviderScope(child: ThemeToggleTestWidget()));
 
       await tester.pumpAndSettle();
 
@@ -158,15 +152,23 @@ class ThemeToggleTestWidget extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Current: ${themeMode == ThemeMode.dark ? "Dark" : themeMode == ThemeMode.light ? "Light" : "System"}',
+                'Current: ${themeMode == ThemeMode.dark
+                    ? "Dark"
+                    : themeMode == ThemeMode.light
+                    ? "Light"
+                    : "System"}',
                 style: theme.textTheme.headlineSmall,
               ),
               const SizedBox(height: 24),
               FilledButton(
                 onPressed: () {
-                  ref.read(themeNotifierProvider).toggleTheme();
+                  ref.read(themeNotifierProvider.notifier).toggleTheme();
                 },
-                child: Text(themeMode == ThemeMode.light ? 'Toggle to Dark' : 'Toggle to Light'),
+                child: Text(
+                  themeMode == ThemeMode.light
+                      ? 'Toggle to Dark'
+                      : 'Toggle to Light',
+                ),
               ),
             ],
           ),
