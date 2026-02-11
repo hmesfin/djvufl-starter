@@ -6,7 +6,8 @@
 project-root/
 ├── backend/              # Django backend
 ├── frontend/             # Vue.js frontend
-├── mobile/              # React Native mobile app
+├── mobile/              # Flutter mobile app
+├── mobile_react_native/ # React Native reference (deprecated)
 ├── compose/             # Docker service configurations
 ├── .envs/               # Environment variables
 ├── docs/                # Sphinx documentation
@@ -109,3 +110,122 @@ frontend/
 4. **Logic in composables**: Extract reusable logic to `composables/`
 5. **Type everything**: No `any` types, strict TypeScript mode
 6. **Max 500 lines**: Split large components into smaller ones
+
+## Mobile Structure (`mobile/` - Flutter)
+
+```
+mobile/
+├── lib/
+│   ├── main.dart              # App entry point
+│   ├── app.dart               # Root app widget with providers
+│   ├── config/
+│   │   ├── api.dart           # API configuration (base URL, etc.)
+│   │   └── routes.dart        # go_router configuration
+│   ├── core/
+│   │   ├── errors/
+│   │   │   ├── exceptions.dart   # Custom exception classes
+│   │   │   └── failures.dart      # Failure types for error handling
+│   │   ├── network/
+│   │   │   ├── dio_client.dart    # Dio HTTP client
+│   │   │   └── network_notifier.dart  # Connectivity monitoring
+│   │   ├── storage/
+│   │   │   ├── secure_storage.dart   # flutter_secure_storage wrapper
+│   │   │   └── preferences_storage.dart # shared_preferences wrapper
+│   │   └── theme/
+│   │       ├── app_theme.dart        # Material 3 themes
+│   │       └── theme_notifier.dart   # Theme state management
+│   ├── features/
+│   │   ├── auth/                  # Authentication feature
+│   │   │   ├── data/
+│   │   │   │   ├── models/        # Freezed models (User, LoginRequest, etc.)
+│   │   │   │   ├── repositories/   # Data repositories
+│   │   │   │   └── services/       # API services
+│   │   │   └── presentation/
+│   │   │       ├── providers/      # Riverpod providers
+│   │   │       ├── screens/        # Auth screens (Login, Register, OTP)
+│   │   │       └── widgets/        # Auth-specific widgets
+│   │   ├── projects/              # Projects feature
+│   │   │   ├── data/
+│   │   │   │   ├── models/        # Project models (Freezed)
+│   │   │   │   ├── repositories/   # Projects repository
+│   │   │   │   └── services/       # Projects API service
+│   │   │   └── presentation/
+│   │   │       ├── providers/      # Projects state provider
+│   │   │       ├── screens/        # List, Detail, Form screens
+│   │   │       └── widgets/        # Project cards, badges
+│   │   └── <feature>/             # Other features follow same pattern
+│   ├── shared/
+│   │   ├── utils/
+│   │   │   └── validators.dart    # Form validation functions
+│   │   └── widgets/
+│   │       ├── offline_banner.dart # Network status banner
+│   │       └── <common_widgets>/   # Shared UI components
+│   └── generated/                 # Auto-generated (freezed, riverpod)
+├── integration_test/              # Integration tests (requires device)
+│   ├── app_test.dart
+│   ├── auth_flow_test.dart
+│   ├── projects_crud_test.dart
+│   └── theme_test.dart
+├── test/                         # Unit and widget tests
+│   └── (mirrors lib/ structure)
+├── pubspec.yaml                  # Dependencies and project config
+├── analysis_options.yaml         # Dart analyzer settings
+└── openapi-generator.yaml        # OpenAPI code generation config
+```
+
+### Mobile File Organization Principles
+
+1. **Feature-first structure**: Group by domain feature (auth, projects, etc.)
+2. **Clean Architecture layers**: data (models, repos, services) → presentation (providers, screens, widgets)
+3. **Code generation**: Use `freezed` for models, `riverpod_generator` for providers
+4. **Never edit `generated/`**: Auto-generated from annotations
+5. **Tests co-located**: Keep tests near implementation or in mirrored test/ directory
+6. **Shared utilities**: Common code in `shared/` (validators, widgets, utils)
+7. **Max 500 lines**: Split large widgets/files into smaller components
+
+### Key Patterns
+
+**Data Models (Freezed)**:
+```dart
+@freezed
+class Project with _$Project {
+  const factory Project({
+    required String uuid,
+    required String name,
+    String? description,
+    required ProjectStatus status,
+  }) = _Project;
+
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
+}
+```
+
+**State Management (Riverpod)**:
+```dart
+@riverpod
+class Projects extends _$Projects {
+  @override
+  Future<List<Project>> build() async {
+    return ref.read(projectsRepository).fetchProjects();
+  }
+
+  Future<void> create(CreateProjectRequest request) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(projectsRepository).create(request);
+      return ref.read(projectsRepository).fetchProjects();
+    });
+  }
+}
+```
+
+**Navigation (go_router)**:
+```dart
+GoRoute(
+  path: '/projects/:uuid',
+  builder: (context, state) {
+    final uuid = state.pathParameters['uuid']!;
+    return ProjectDetailScreen(projectUuid: uuid);
+  },
+)
+```

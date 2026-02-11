@@ -1,0 +1,17 @@
+generatorName: dart
+inputSpec: 'http://localhost:8000/openapi.json'
+outputDir: lib/generated/
+packageName: openapi
+snapshot: false
+skipValidateSpec: false
+verbose: false
+dartVersion: '3.10'
+
+# Additional options for Dart generator
+generateAliasAsModel: false
+fixNaming: true
+serdeDerive: false
+supportsURLEncoding: true
+supportsMultipart: false
+supportsFormData: true
+useEnumExtension: true

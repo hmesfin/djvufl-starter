@@ -28,7 +28,7 @@ docker compose run --rm frontend npm run type-check
 docker compose run --rm frontend npm run test:run
 
 # Mobile changes?
-cd mobile && npm run type-check && npm run test:run
+cd mobile && flutter analyze && flutter test
 
 # All green? Push with confidence.
 git push
@@ -41,11 +41,11 @@ Your CI runs **6 jobs** on every push to `main` or PR:
 | Job | What It Does | Time | When It Fails |
 |-----|-------------|------|---------------|
 | **linter** | Pre-commit hooks (Ruff, Prettier, etc.) | ~1m | Code style violations |
-| **pytest** | 227 Django tests + migrations check | ~2m | Backend logic errors, migration conflicts |
+| **pytest** | Django tests + migrations check | ~2m | Backend logic errors, migration conflicts |
 | **frontend-typecheck** | TypeScript strict mode validation | ~52s | Type errors in Vue code |
-| **frontend-tests** | 350 Vue component/integration tests | ~52s | Frontend logic errors, broken components |
-| **mobile-typecheck** | TypeScript strict mode for React Native | ~30s | Type errors in mobile code |
-| **mobile-tests** | 364 mobile tests (379 total, 15 skipped) | ~32s | Mobile logic errors, broken screens |
+| **frontend-tests** | Vue component/integration tests | ~52s | Frontend logic errors, broken components |
+| **mobile-analyze** | Flutter/Dart static analysis | ~30s | Code quality issues in mobile |
+| **mobile-tests** | Flutter widget and unit tests | ~45s | Mobile logic errors, broken widgets |
 
 **Total CI time**: ~3-4 minutes (jobs run in parallel)
 
@@ -181,26 +181,26 @@ docker compose run --rm frontend npm run test:coverage
 docker compose run --rm frontend npm run type-check
 ```
 
-### Mobile Development
+### Mobile Development (Flutter)
 
 **TDD workflow** (mobile runs on host, not Docker):
 ```bash
 cd mobile
 
 # 1. Write failing test
-npm test -- ForgotPasswordScreen
+flutter test test/widget_test.dart
 
 # 2. Implement feature
 # ... edit code ...
 
-# 3. Watch mode
-npm test
+# 3. Watch mode (instant feedback)
+flutter test --watch
 
-# 4. Type check
-npm run type-check
+# 4. Analyze code
+flutter analyze
 
 # 5. Run all tests
-npm run test:run
+flutter test
 
 # 6. Push
 git push
@@ -208,20 +208,20 @@ git push
 
 **Quick commands**:
 ```bash
-# Watch mode
-npm test
-
 # Run all tests
-npm run test:run
+flutter test
 
-# Single test file
-npm test -- LoginScreen
+# Run with coverage
+flutter test --coverage
 
-# Coverage report
-npm run test:coverage
+# Analyze code (static analysis)
+flutter analyze
 
-# Type check
-npm run type-check
+# Run specific test file
+flutter test test/widget_test.dart
+
+# Build verification
+flutter build apk --debug
 ```
 
 ## Common Failure Patterns
@@ -264,9 +264,9 @@ git commit -m "migrations: add missing migration for <change>"
 
 ### 3. Type Errors After API Changes
 
-**Symptom**: Frontend/mobile TypeScript errors after backend changes
+**Symptom**: Frontend/mobile type errors after backend changes
 
-**Cause**: Forgot to regenerate API client
+**Cause**: Forgot to regenerate API client (frontend) or update models (mobile)
 
 **Fix**:
 ```bash
@@ -275,7 +275,7 @@ docker compose run --rm frontend npm run generate:api
 
 # Then type check
 docker compose run --rm frontend npm run type-check
-cd mobile && npm run type-check
+cd mobile && flutter analyze
 ```
 
 **Prevention**: Make this part of your backend workflow
@@ -541,9 +541,9 @@ open backend/htmlcov/index.html
 docker compose run --rm frontend npm run test:coverage
 open frontend/coverage/index.html
 
-# Mobile
-cd mobile && npm run test:coverage
-open coverage/index.html
+# Mobile (Flutter)
+cd mobile && flutter test --coverage
+open mobile/coverage/lcov-report/index.html
 ```
 
 ## Emergency Procedures
@@ -586,8 +586,8 @@ docker compose run --rm django mypy apps
 docker compose run --rm frontend npm run test:run && \
 docker compose run --rm frontend npm run type-check
 
-# Mobile changes
-cd mobile && npm run test:run && npm run type-check
+# Mobile changes (Flutter)
+cd mobile && flutter test && flutter analyze
 
 # All green? Push safely.
 ```

@@ -175,27 +175,32 @@ jobs:
       - name: Tear down the Stack
         run: docker compose down
 
-  mobile-typecheck:
+  mobile-analyze:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code Repository
         uses: actions/checkout@v5
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: mobile/package-lock.json
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-v1'
+          cache-path: '${{ env.HOME }}/flutter_dart_cache'
+          pub-cache-key: 'pub-v1'
+          pub-cache-path: '${{ env.HOME }}/.pub-cache'
+          working-directory: ./mobile
 
-      - name: Install dependencies
+      - name: Install Flutter dependencies
         working-directory: ./mobile
-        run: npm ci
+        run: flutter pub get
 
-      - name: Run TypeScript Type Check
+      - name: Run Flutter analyze
         working-directory: ./mobile
-        run: npm run type-check
+        run: flutter analyze
 
   mobile-tests:
     runs-on: ubuntu-latest
@@ -204,17 +209,30 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v5
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: mobile/package-lock.json
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-v1'
+          cache-path: '${{ env.HOME }}/flutter_dart_cache'
+          pub-cache-key: 'pub-v1'
+          pub-cache-path: '${{ env.HOME }}/.pub-cache'
+          working-directory: ./mobile
 
-      - name: Install dependencies
+      - name: Install Flutter dependencies
         working-directory: ./mobile
-        run: npm ci
+        run: flutter pub get
 
-      - name: Run Mobile Tests
+      - name: Run Mobile Tests with coverage
         working-directory: ./mobile
-        run: npm run test:run
+        run: flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./mobile/coverage/lcov.info
+          flags: flutter
+          name: flutter-coverage
+          fail_ci_if_error: false

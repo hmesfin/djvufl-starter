@@ -4,14 +4,15 @@
 
 ## What Is This?
 
-Full-stack Django + Vue.js starter template with production-ready patterns:
+Full-stack Django + Vue.js + Flutter starter template with production-ready patterns:
 
 - **Backend**: Django 5.2, DRF (API-only), PostgreSQL, Redis, Celery
 - **Frontend**: Vue 3 (Composition API), TypeScript, Vite, Shadcn-vue, Tailwind CSS v4
+- **Mobile**: Flutter (Dart) with Riverpod state management, Material 3
 - **Auth**: Email-based with OTP verification (no Django templates)
 - **Infrastructure**: Docker-first (all services containerized, including Vite dev server)
-- **Type Safety**: Auto-generated TypeScript client from Django OpenAPI schema
-- **Package Management**: `uv` (Python), `npm` (JavaScript)
+- **Type Safety**: Auto-generated TypeScript/Flutter clients from Django OpenAPI schema
+- **Package Management**: `uv` (Python), `npm` (JavaScript), Flutter pub
 
 ## Non-Negotiable Rules
 
@@ -201,14 +202,14 @@ docker compose run --rm django coverage run -m pytest  # with coverage
 docker compose run --rm frontend npm run test:run      # all tests
 docker compose run --rm frontend npm test              # watch mode
 
-# Mobile
-cd mobile && npm run test:run                          # all tests
-cd mobile && npm test                                  # watch mode
+# Mobile (Flutter)
+cd mobile && flutter test                              # all tests
+cd mobile && flutter test --coverage                   # with coverage
 
 # Type checking
 docker compose run --rm django mypy apps
 docker compose run --rm frontend npm run type-check
-cd mobile && npm run type-check
+cd mobile && flutter analyze
 ```
 
 **See GREEN_CICD.md for complete testing workflows, failure patterns, and best practices.**
