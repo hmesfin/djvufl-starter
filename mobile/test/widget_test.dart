@@ -7,11 +7,9 @@ import 'package:mobile/features/auth/presentation/screens/login_screen.dart';
 void main() {
   testWidgets('Login screen displays correctly', (WidgetTester tester) async {
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          // Override auth provider to avoid async initialization in tests
-        ],
-        child: const MaterialApp(
+      const ProviderScope(
+        overrides: [],
+        child: MaterialApp(
           home: LoginScreen(),
         ),
       ),

@@ -79,11 +79,9 @@ void main() {
     testWidgets('Login button is disabled when loading', (WidgetTester tester) async {
       // This test would need to mock the auth provider to simulate loading state
       await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            // TODO: Override auth state to simulate loading
-          ],
-          child: const MaterialApp(
+        const ProviderScope(
+          overrides: [],
+          child: MaterialApp(
             home: LoginScreen(),
           ),
         ),

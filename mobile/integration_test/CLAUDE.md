@@ -7,6 +7,7 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #2377 | 8:10 PM | 🔄 | Auth flow test widget cleanup | ~186 |
 | #2353 | 7:58 PM | 🔴 | Removed unnecessary null check in app test | ~65 |
 | #2352 | " | 🔄 | Cleaned up auth flow integration test | ~116 |
 | #2343 | 7:57 PM | 🔴 | Fixed Riverpod notifier access in theme test | ~149 |

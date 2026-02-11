@@ -19,8 +19,9 @@ lib/
 lib64/
 parts/
 
-# Exception: allow frontend/src/lib (our TypeScript source code)
+# Exception: allow frontend/src/lib and mobile/lib (our source code)
 !frontend/src/lib/
+!mobile/lib/
 sdist/
 var/
 wheels/

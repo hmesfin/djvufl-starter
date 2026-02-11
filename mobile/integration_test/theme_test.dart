@@ -89,7 +89,7 @@ void main() {
     testWidgets('Theme mode persists across rebuilds', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(ProviderScope(child: ThemeToggleTestWidget()));
+      await tester.pumpWidget(const ProviderScope(child: ThemeToggleTestWidget()));
 
       await tester.pumpAndSettle();
 
@@ -101,7 +101,7 @@ void main() {
       expect(find.text('Current: Dark'), findsOneWidget);
 
       // Rebuild the widget (simulates app restart)
-      await tester.pumpWidget(ProviderScope(child: ThemeToggleTestWidget()));
+      await tester.pumpWidget(const ProviderScope(child: ThemeToggleTestWidget()));
 
       await tester.pumpAndSettle();
 
