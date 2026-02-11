@@ -10,15 +10,13 @@ import '../providers/auth_provider.dart';
 /// Allows users to verify their email with a 6-digit OTP code.
 /// Provides resend functionality with countdown timer.
 class OTPVerificationScreen extends ConsumerStatefulWidget {
-  const OTPVerificationScreen({
-    super.key,
-    required this.email,
-  });
+  const OTPVerificationScreen({super.key, required this.email});
 
   final String email;
 
   @override
-  ConsumerState<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
+  ConsumerState<OTPVerificationScreen> createState() =>
+      _OTPVerificationScreenState();
 }
 
 class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
@@ -157,16 +155,18 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
                   Text(
                     'Enter the 6-digit code sent to',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                        ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     widget.email,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
@@ -186,10 +186,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
                       border: OutlineInputBorder(),
                     ),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      letterSpacing: 8,
-                    ),
+                    style: const TextStyle(fontSize: 24, letterSpacing: 8),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'OTP code is required';
@@ -249,7 +246,9 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
 
                   // Resend Button
                   TextButton(
-                    onPressed: (_resendDisabled || isLoading) ? null : _handleResend,
+                    onPressed: (_resendDisabled || isLoading)
+                        ? null
+                        : _handleResend,
                     child: Text(
                       _resendDisabled
                           ? 'Resend code in ${_countdown}s'

@@ -10,7 +10,7 @@ import 'package:mobile/features/projects/presentation/screens/projects_list_scre
 /// These tests verify end-to-end functionality across multiple screens and features.
 void main() {
   testWidgets('App displays login screen when not authenticated', (
-    WidgetTester tester,
+    tester,
   ) async {
     await tester.pumpWidget(const ProviderScope(child: MyApp()));
 
@@ -19,9 +19,7 @@ void main() {
     expect(find.text('Sign in to continue'), findsOneWidget);
   });
 
-  testWidgets('Login screen has email and password fields', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('Login screen has email and password fields', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(child: MaterialApp(home: LoginScreen())),
     );
@@ -35,9 +33,7 @@ void main() {
     expect(find.text('Login'), findsOneWidget);
   });
 
-  testWidgets('Projects list screen has search bar', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('Projects list screen has search bar', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
         overrides: [
@@ -54,7 +50,7 @@ void main() {
     expect(find.text('Search projects...'), findsOneWidget);
   });
 
-  testWidgets('App theme uses Material 3', (WidgetTester tester) async {
+  testWidgets('App theme uses Material 3', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: MyApp()));
 
     // Verify MaterialApp is being used

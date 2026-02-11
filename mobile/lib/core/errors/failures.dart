@@ -36,9 +36,9 @@ class AppFailure with _$AppFailure {
 
 /// Exception class that can be thrown and caught
 class AppException implements Exception {
-  final AppFailure failure;
-
   const AppException(this.failure);
+
+  final AppFailure failure;
 
   @override
   String toString() => failure.when(

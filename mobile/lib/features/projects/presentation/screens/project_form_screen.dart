@@ -11,10 +11,7 @@ import '../providers/projects_provider.dart';
 /// Create or edit a project with form validation.
 /// Includes date pickers for start and due dates.
 class ProjectFormScreen extends ConsumerStatefulWidget {
-  const ProjectFormScreen({
-    super.key,
-    this.projectUuid,
-  });
+  const ProjectFormScreen({super.key, this.projectUuid});
 
   final String? projectUuid;
 
@@ -54,7 +51,9 @@ class _ProjectFormScreenState extends ConsumerState<ProjectFormScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final project = await ref.read(projectsRepositoryProvider).get(widget.projectUuid!);
+      final project = await ref
+          .read(projectsRepositoryProvider)
+          .get(widget.projectUuid!);
       if (mounted) {
         _nameController.text = project.name;
         _descriptionController.text = project.description ?? '';
@@ -129,10 +128,9 @@ class _ProjectFormScreenState extends ConsumerState<ProjectFormScreen> {
           startDate: _startDate,
           dueDate: _dueDate,
         );
-        await ref.read(projectsProvider.notifier).updateProject(
-              widget.projectUuid!,
-              request,
-            );
+        await ref
+            .read(projectsProvider.notifier)
+            .updateProject(widget.projectUuid!, request);
       } else {
         // Create new project
         final request = ProjectCreateRequest(
@@ -197,184 +195,191 @@ class _ProjectFormScreenState extends ConsumerState<ProjectFormScreen> {
                 padding: const EdgeInsets.all(16),
                 children: [
                   // Error Message
-            if (_errorMessage != null)
-              Container(
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: Theme.of(context).colorScheme.error,
+                  if (_errorMessage != null)
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _errorMessage!,
+                              style: TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onErrorContainer,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
+
+                  // Name Field
+                  TextFormField(
+                    controller: _nameController,
+                    enabled: !_isLoading,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      labelText: 'Project Name *',
+                      hintText: 'Enter project name',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: validateProjectName,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Description Field
+                  TextFormField(
+                    controller: _descriptionController,
+                    enabled: !_isLoading,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      hintText: 'Enter project description (optional)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Status Dropdown
+                  DropdownButtonFormField<ProjectStatus>(
+                    initialValue: _selectedStatus,
+                    decoration: const InputDecoration(
+                      labelText: 'Status',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: ProjectStatus.values.map((status) {
+                      return DropdownMenuItem(
+                        value: status,
+                        child: Text(status.label),
+                      );
+                    }).toList(),
+                    onChanged: _isLoading
+                        ? null
+                        : (value) {
+                            setState(() {
+                              _selectedStatus = value;
+                            });
+                          },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Priority Dropdown
+                  DropdownButtonFormField<ProjectPriority>(
+                    initialValue: _selectedPriority,
+                    decoration: const InputDecoration(
+                      labelText: 'Priority',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: ProjectPriority.values.map((priority) {
+                      return DropdownMenuItem(
+                        value: priority,
+                        child: Text(priority.label),
+                      );
+                    }).toList(),
+                    onChanged: _isLoading
+                        ? null
+                        : (value) {
+                            setState(() {
+                              _selectedPriority = value;
+                            });
+                          },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Start Date Field
+                  InkWell(
+                    onTap: _isLoading ? null : () => _selectDate(true),
+                    child: InputDecorator(
+                      decoration: const InputDecoration(
+                        labelText: 'Start Date',
+                        hintText: 'Select start date',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      child: Text(_formatDate(_startDate)),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Due Date Field
+                  InkWell(
+                    onTap: _isLoading ? null : () => _selectDate(false),
+                    child: InputDecorator(
+                      decoration: const InputDecoration(
+                        labelText: 'Due Date',
+                        hintText: 'Select due date',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      child: Text(_formatDate(_dueDate)),
+                    ),
+                  ),
+
+                  // Date validation error
+                  if (_startDate != null &&
+                      _dueDate != null &&
+                      _dueDate!.isBefore(_startDate!))
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
                       child: Text(
-                        _errorMessage!,
+                        'Due date must be after start date',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onErrorContainer,
+                          color: Theme.of(context).colorScheme.error,
+                          fontSize: 12,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
 
-            // Name Field
-            TextFormField(
-              controller: _nameController,
-              enabled: !_isLoading,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Project Name *',
-                hintText: 'Enter project name',
-                border: OutlineInputBorder(),
-              ),
-              validator: validateProjectName,
-            ),
-            const SizedBox(height: 16),
+                  const SizedBox(height: 32),
 
-            // Description Field
-            TextFormField(
-              controller: _descriptionController,
-              enabled: !_isLoading,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                hintText: 'Enter project description (optional)',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Status Dropdown
-            DropdownButtonFormField<ProjectStatus>(
-              value: _selectedStatus,
-              decoration: const InputDecoration(
-                labelText: 'Status',
-                border: OutlineInputBorder(),
-              ),
-              items: ProjectStatus.values.map((status) {
-                return DropdownMenuItem(
-                  value: status,
-                  child: Text(status.label),
-                );
-              }).toList(),
-              onChanged: _isLoading
-                  ? null
-                  : (value) {
-                      setState(() {
-                        _selectedStatus = value;
-                      });
-                    },
-            ),
-            const SizedBox(height: 16),
-
-            // Priority Dropdown
-            DropdownButtonFormField<ProjectPriority>(
-              value: _selectedPriority,
-              decoration: const InputDecoration(
-                labelText: 'Priority',
-                border: OutlineInputBorder(),
-              ),
-              items: ProjectPriority.values.map((priority) {
-                return DropdownMenuItem(
-                  value: priority,
-                  child: Text(priority.label),
-                );
-              }).toList(),
-              onChanged: _isLoading
-                  ? null
-                  : (value) {
-                      setState(() {
-                        _selectedPriority = value;
-                      });
-                    },
-            ),
-            const SizedBox(height: 16),
-
-            // Start Date Field
-            InkWell(
-              onTap: _isLoading ? null : () => _selectDate(true),
-              child: InputDecorator(
-                decoration: const InputDecoration(
-                  labelText: 'Start Date',
-                  hintText: 'Select start date',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                child: Text(_formatDate(_startDate)),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Due Date Field
-            InkWell(
-              onTap: _isLoading ? null : () => _selectDate(false),
-              child: InputDecorator(
-                decoration: const InputDecoration(
-                  labelText: 'Due Date',
-                  hintText: 'Select due date',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                child: Text(_formatDate(_dueDate)),
-              ),
-            ),
-
-            // Date validation error
-            if (_startDate != null &&
-                _dueDate != null &&
-                _dueDate!.isBefore(_startDate!))
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  'Due date must be after start date',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                    fontSize: 12,
+                  // Submit Button
+                  FilledButton(
+                    onPressed:
+                        (_isLoading ||
+                            (_startDate != null &&
+                                _dueDate != null &&
+                                _dueDate!.isBefore(_startDate!)))
+                        ? null
+                        : _handleSubmit,
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            isEditMode ? 'Update Project' : 'Create Project',
+                          ),
                   ),
-                ),
-              ),
+                  const SizedBox(height: 8),
 
-            const SizedBox(height: 32),
-
-            // Submit Button
-            FilledButton(
-              onPressed: (_isLoading ||
-                      (_startDate != null &&
-                          _dueDate != null &&
-                          _dueDate!.isBefore(_startDate!)))
-                  ? null
-                  : _handleSubmit,
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(isEditMode ? 'Update Project' : 'Create Project'),
-            ),
-            const SizedBox(height: 8),
-
-            // Cancel Button
-            OutlinedButton(
-              onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: const Text('Cancel'),
-            ),
+                  // Cancel Button
+                  OutlinedButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () => Navigator.of(context).pop(),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text('Cancel'),
+                  ),
                 ],
               ),
             ),

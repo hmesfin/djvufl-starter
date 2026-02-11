@@ -24,12 +24,10 @@ class NetworkNotifier extends StateNotifier<NetworkStatus> {
     _updateStatus(result);
 
     // Listen for connectivity changes
-    _connectivity.onConnectivityChanged.listen((List<ConnectivityResult> results) {
-      _updateStatus(results);
-    });
+    _connectivity.onConnectivityChanged.listen(_updateStatus);
   }
 
-  void _updateStatus(List<ConnectivityResult> results) {
+  void _updateStatus(List results) {
     if (results.contains(ConnectivityResult.none) || results.isEmpty) {
       state = NetworkStatus.disconnected;
     } else {

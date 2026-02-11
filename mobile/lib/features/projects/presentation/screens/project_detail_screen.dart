@@ -10,10 +10,7 @@ import '../providers/projects_provider.dart';
 /// Displays detailed information about a single project
 /// with options to edit or delete.
 class ProjectDetailScreen extends ConsumerWidget {
-  const ProjectDetailScreen({
-    super.key,
-    required this.projectUuid,
-  });
+  const ProjectDetailScreen({super.key, required this.projectUuid});
 
   final String projectUuid;
 
@@ -37,7 +34,7 @@ class ProjectDetailScreen extends ConsumerWidget {
                 // TODO: Navigate to edit form
               },
             ),
-          ],
+        ],
       ),
       body: projectAsync.when(
         loading: () => const Center(
@@ -68,8 +65,10 @@ class ProjectDetailScreen extends ConsumerWidget {
               Text(
                 error.toString(),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                    ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -89,8 +88,8 @@ class ProjectDetailScreen extends ConsumerWidget {
               Text(
                 project.name,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 16),
 
@@ -102,21 +101,21 @@ class ProjectDetailScreen extends ConsumerWidget {
                   StatusBadge(status: project.status),
                   PriorityBadge(priority: project.priority),
                   // Overdue indicator
-                  if (_isOverdue(project))
-                    _OverdueBadge(),
+                  if (_isOverdue(project)) _OverdueBadge(),
                 ],
               ),
               const SizedBox(height: 24),
 
               // Description
-              if (project.description != null && project.description!.isNotEmpty)
+              if (project.description != null &&
+                  project.description!.isNotEmpty)
                 _Section(
                   title: 'Description',
                   child: Text(
                     project.description!,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          height: 1.5,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge?.copyWith(height: 1.5),
                   ),
                 ),
 
@@ -144,6 +143,7 @@ class ProjectDetailScreen extends ConsumerWidget {
               // Metadata Section
               _Section(
                 title: 'Metadata',
+                showBorder: false,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -155,13 +155,9 @@ class ProjectDetailScreen extends ConsumerWidget {
                       label: 'Last Updated:',
                       value: _formatDate(project.updatedAt),
                     ),
-                    _MetadataRow(
-                      label: 'UUID:',
-                      value: project.uuid,
-                    ),
+                    _MetadataRow(label: 'UUID:', value: project.uuid),
                   ],
                 ),
-                showBorder: false,
               ),
 
               // Action Buttons
@@ -214,7 +210,9 @@ class ProjectDetailScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(context).pop();
               try {
-                await ref.read(projectsProvider.notifier).deleteProject(projectUuid);
+                await ref
+                    .read(projectsProvider.notifier)
+                    .deleteProject(projectUuid);
                 if (context.mounted) {
                   Navigator.of(context).pop();
                 }
@@ -256,9 +254,9 @@ class _Section extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         if (showBorder)
@@ -280,10 +278,7 @@ class _Section extends StatelessWidget {
 
 /// Date row widget
 class _DateRow extends StatelessWidget {
-  const _DateRow({
-    required this.label,
-    required this.date,
-  });
+  const _DateRow({required this.label, required this.date});
 
   final String label;
   final String date;
@@ -298,16 +293,13 @@ class _DateRow extends StatelessWidget {
             width: 90,
             child: Text(
               label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           Expanded(
-            child: Text(
-              date,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            child: Text(date, style: Theme.of(context).textTheme.bodyMedium),
           ),
         ],
       ),
@@ -317,10 +309,7 @@ class _DateRow extends StatelessWidget {
 
 /// Metadata row widget
 class _MetadataRow extends StatelessWidget {
-  const _MetadataRow({
-    required this.label,
-    required this.value,
-  });
+  const _MetadataRow({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -336,16 +325,13 @@ class _MetadataRow extends StatelessWidget {
             width: 100,
             child: Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(value, style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),

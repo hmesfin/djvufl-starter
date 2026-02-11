@@ -3,10 +3,7 @@ import '../../features/projects/data/models/project_models.dart';
 
 /// Status badge widget
 class StatusBadge extends StatelessWidget {
-  const StatusBadge({
-    super.key,
-    required this.status,
-  });
+  const StatusBadge({super.key, required this.status});
 
   final ProjectStatus status;
 
@@ -36,7 +33,8 @@ class StatusBadge extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return switch (status) {
-      ProjectStatus.draft => isDark ? Colors.grey.shade700 : Colors.grey.shade400,
+      ProjectStatus.draft =>
+        isDark ? Colors.grey.shade700 : Colors.grey.shade400,
       ProjectStatus.active => Colors.blue,
       ProjectStatus.completed => Colors.green,
       ProjectStatus.archived => Colors.orange,
@@ -55,10 +53,7 @@ class StatusBadge extends StatelessWidget {
 
 /// Priority badge widget
 class PriorityBadge extends StatelessWidget {
-  const PriorityBadge({
-    super.key,
-    required this.priority,
-  });
+  const PriorityBadge({super.key, required this.priority});
 
   final ProjectPriority priority;
 
@@ -149,13 +144,14 @@ class ProjectCard extends StatelessWidget {
               const SizedBox(height: 8),
 
               // Description
-              if (project.description != null && project.description!.isNotEmpty)
+              if (project.description != null &&
+                  project.description!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     project.description!,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -207,10 +203,7 @@ class ProjectCard extends StatelessWidget {
 
 /// Date chip widget for project card
 class _DateChip extends StatelessWidget {
-  const _DateChip({
-    required this.label,
-    required this.date,
-  });
+  const _DateChip({required this.label, required this.date});
 
   final String label;
   final DateTime date;
@@ -226,15 +219,12 @@ class _DateChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            '$label: ',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          Text('$label: ', style: Theme.of(context).textTheme.bodySmall),
           Text(
             _formatDate(date),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
           ),
         ],
       ),

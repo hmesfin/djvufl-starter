@@ -107,8 +107,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(height: 8),
                         Text(
                           'Sign in to continue',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -142,7 +145,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             hintText: 'Enter your password',
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
-                              icon: Icon(_obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _obscurePassword = !_obscurePassword;
@@ -159,9 +166,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: isLoading ? null : () {
-                              // TODO: Navigate to forgot password screen
-                            },
+                            onPressed: isLoading
+                                ? null
+                                : () {
+                                    // TODO: Navigate to forgot password screen
+                                  },
                             child: const Text('Forgot Password?'),
                           ),
                         ),
@@ -190,7 +199,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text('Login'),
                         ),
@@ -198,10 +209,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                         // Register Link
                         TextButton(
-                          onPressed: isLoading ? null : () {
-                            // TODO: Navigate to register screen
-                          },
-                          child: const Text("Don't have an account? Create Account"),
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  // TODO: Navigate to register screen
+                                },
+                          child: const Text(
+                            "Don't have an account? Create Account",
+                          ),
                         ),
                       ],
                     ),

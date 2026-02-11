@@ -12,9 +12,7 @@
 library;
 
 /// Email validation regex pattern.
-final RegExp _emailRegex = RegExp(
-  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-);
+final RegExp _emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
 /// Password requirements.
 const int _minPasswordLength = 8;
@@ -126,13 +124,13 @@ String? validateStrongPassword(String? value) {
   if (value.length < _minPasswordLength) {
     return 'Password must be at least $_minPasswordLength characters';
   }
-  if (!RegExp(r'[a-z]').hasMatch(value)) {
+  if (!RegExp('[a-z]').hasMatch(value)) {
     return 'Password must contain at least one lowercase letter';
   }
-  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+  if (!RegExp('[A-Z]').hasMatch(value)) {
     return 'Password must contain at least one uppercase letter';
   }
-  if (!RegExp(r'[0-9]').hasMatch(value)) {
+  if (!RegExp('[0-9]').hasMatch(value)) {
     return 'Password must contain at least one number';
   }
   if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {

@@ -24,7 +24,7 @@ class OfflineBanner extends ConsumerWidget {
         color: Colors.orange.shade900,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -32,11 +32,7 @@ class OfflineBanner extends ConsumerWidget {
       ),
       child: const Row(
         children: [
-          Icon(
-            Icons.wifi_off,
-            color: Colors.white,
-            size: 20,
-          ),
+          Icon(Icons.wifi_off, color: Colors.white, size: 20),
           SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -70,24 +66,15 @@ class SliverOfflineBanner extends ConsumerWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.orange.shade900,
-        ),
+        decoration: BoxDecoration(color: Colors.orange.shade900),
         child: const Row(
           children: [
-            Icon(
-              Icons.wifi_off,
-              color: Colors.white,
-              size: 20,
-            ),
+            Icon(Icons.wifi_off, color: Colors.white, size: 20),
             SizedBox(width: 12),
             Expanded(
               child: Text(
                 'No internet connection',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
           ],
@@ -111,11 +98,7 @@ class OfflineIndicator extends ConsumerWidget {
 
     return const Padding(
       padding: EdgeInsets.only(right: 16),
-      child: Icon(
-        Icons.wifi_off,
-        color: Colors.orange,
-        size: 20,
-      ),
+      child: Icon(Icons.wifi_off, color: Colors.orange, size: 20),
     );
   }
 }

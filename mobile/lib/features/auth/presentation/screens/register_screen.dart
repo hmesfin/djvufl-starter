@@ -119,8 +119,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         const SizedBox(height: 8),
                         Text(
                           'Sign up to get started',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -138,7 +141,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             prefixIcon: Icon(Icons.person_outline),
                             border: OutlineInputBorder(),
                           ),
-                          validator: (value) => validateName(value, 'First name'),
+                          validator: (value) =>
+                              validateName(value, 'First name'),
                         ),
                         const SizedBox(height: 16),
 
@@ -154,7 +158,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             prefixIcon: Icon(Icons.person_outline),
                             border: OutlineInputBorder(),
                           ),
-                          validator: (value) => validateName(value, 'Last name'),
+                          validator: (value) =>
+                              validateName(value, 'Last name'),
                         ),
                         const SizedBox(height: 16),
 
@@ -185,7 +190,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             hintText: 'Enter a password',
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
-                              icon: Icon(_obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _obscurePassword = !_obscurePassword;
@@ -210,16 +219,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             hintText: 'Confirm your password',
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
-                              icon: Icon(_obscureConfirmPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                              icon: Icon(
+                                _obscureConfirmPassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
                               onPressed: () {
                                 setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  _obscureConfirmPassword =
+                                      !_obscureConfirmPassword;
                                 });
                               },
                             ),
                             border: const OutlineInputBorder(),
                           ),
-                          validator: (value) => validateConfirmPassword(value, _passwordController.text),
+                          validator: (value) => validateConfirmPassword(
+                            value,
+                            _passwordController.text,
+                          ),
                         ),
                         const SizedBox(height: 16),
 
@@ -246,7 +263,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text('Create Account'),
                         ),
@@ -254,9 +273,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                         // Login Link
                         TextButton(
-                          onPressed: isLoading ? null : () {
-                            // TODO: Navigate to login screen
-                          },
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  // TODO: Navigate to login screen
+                                },
                           child: const Text('Already have an account? Sign In'),
                         ),
                       ],

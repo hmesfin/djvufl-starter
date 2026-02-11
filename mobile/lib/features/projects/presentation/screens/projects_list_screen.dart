@@ -38,9 +38,9 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
     setState(() {
       _searchQuery = query;
     });
-    ref.read(projectsProvider.notifier).updateFilters(
-          ProjectFilters(search: query.isEmpty ? null : query),
-        );
+    ref
+        .read(projectsProvider.notifier)
+        .updateFilters(ProjectFilters(search: query.isEmpty ? null : query));
   }
 
   Future<void> _handleRefresh() async {
@@ -61,7 +61,10 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
     return projects.where((project) {
       if (_searchQuery.isEmpty) return true;
       return project.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          (project.description?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false);
+          (project.description?.toLowerCase().contains(
+                _searchQuery.toLowerCase(),
+              ) ??
+              false);
     }).toList();
   }
 
@@ -124,9 +127,7 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
               child: Builder(
                 builder: (context) {
                   if (isLoading && projects.isEmpty) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (error != null) {
@@ -165,7 +166,9 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
                           Icon(
                             Icons.folder_open,
                             size: 64,
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.3),
                           ),
                           const SizedBox(height: 16),
                           Text(
@@ -175,9 +178,16 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
                           const SizedBox(height: 8),
                           Text(
                             'Create your first project to get started',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.7),
                                 ),
+                          ),
+                          const SizedBox(height: 16),
+                          FilledButton.tonal(
+                            onPressed: _handleCreateProject,
+                            child: const Text('Create Project'),
                           ),
                         ],
                       ),
@@ -192,7 +202,9 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
                           Icon(
                             Icons.search_off,
                             size: 64,
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.3),
                           ),
                           const SizedBox(height: 16),
                           Text(
@@ -202,8 +214,10 @@ class _ProjectsListScreenState extends ConsumerState<ProjectsListScreen> {
                           const SizedBox(height: 8),
                           Text(
                             'Try adjusting your search',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.7),
                                 ),
                           ),
                         ],

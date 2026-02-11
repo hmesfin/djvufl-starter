@@ -5,13 +5,11 @@ import 'package:mobile/main.dart';
 import 'package:mobile/features/auth/presentation/screens/login_screen.dart';
 
 void main() {
-  testWidgets('Login screen displays correctly', (WidgetTester tester) async {
+  testWidgets('Login screen displays correctly', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
         overrides: [],
-        child: MaterialApp(
-          home: LoginScreen(),
-        ),
+        child: MaterialApp(home: LoginScreen()),
       ),
     );
 
@@ -26,13 +24,9 @@ void main() {
     expect(find.byType(FilledButton), findsOneWidget);
   });
 
-  testWidgets('App title is correct', (WidgetTester tester) async {
+  testWidgets('App title is correct', (tester) async {
     // Build the app and trigger a frame
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: MyApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: MyApp()));
 
     // Verify app title (without waiting for full initialization)
     expect(find.byType(MaterialApp), findsOneWidget);

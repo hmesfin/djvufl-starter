@@ -9,9 +9,7 @@ import 'package:mobile/core/theme/theme_notifier.dart';
 /// Tests theme configuration, theme mode switching, and theming functionality.
 void main() {
   group('Theme Configuration', () {
-    testWidgets('App has light and dark themes configured', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('App has light and dark themes configured', (tester) async {
       // Test that both themes can be created without errors
       final lightTheme = AppTheme.lightTheme;
       final darkTheme = AppTheme.darkTheme;
@@ -24,9 +22,7 @@ void main() {
       expect(darkTheme.useMaterial3, isTrue);
     });
 
-    testWidgets('ThemeModeEnum correctly maps to ThemeMode', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('ThemeModeEnum correctly maps to ThemeMode', (tester) async {
       // Test enum to ThemeMode mapping
       expect(ThemeModeEnum.light.toThemeMode(), ThemeMode.light);
       expect(ThemeModeEnum.dark.toThemeMode(), ThemeMode.dark);
@@ -41,9 +37,7 @@ void main() {
       expect(ThemeModeEnum.fromString('invalid'), ThemeModeEnum.system);
     });
 
-    testWidgets('ThemeNotifier provides initial state', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('ThemeNotifier provides initial state', (tester) async {
       await tester.pumpWidget(
         ProviderScope(child: MaterialApp(home: Container())),
       );
@@ -58,9 +52,7 @@ void main() {
   });
 
   group('Theme Toggle', () {
-    testWidgets('Theme can be toggled between light and dark', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('Theme can be toggled between light and dark', (tester) async {
       // Create a test widget that demonstrates theme toggling
       await tester.pumpWidget(
         const ProviderScope(child: ThemeToggleTestWidget()),
@@ -86,10 +78,10 @@ void main() {
       expect(find.text('Toggle to Dark'), findsOneWidget);
     });
 
-    testWidgets('Theme mode persists across rebuilds', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const ProviderScope(child: ThemeToggleTestWidget()));
+    testWidgets('Theme mode persists across rebuilds', (tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(child: ThemeToggleTestWidget()),
+      );
 
       await tester.pumpAndSettle();
 
@@ -101,7 +93,9 @@ void main() {
       expect(find.text('Current: Dark'), findsOneWidget);
 
       // Rebuild the widget (simulates app restart)
-      await tester.pumpWidget(const ProviderScope(child: ThemeToggleTestWidget()));
+      await tester.pumpWidget(
+        const ProviderScope(child: ThemeToggleTestWidget()),
+      );
 
       await tester.pumpAndSettle();
 

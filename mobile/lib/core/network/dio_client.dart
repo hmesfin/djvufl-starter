@@ -22,7 +22,8 @@ class DioClient {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        validateStatus: (status) => status != null && status >= 200 && status < 300,
+        validateStatus: (status) =>
+            status != null && status >= 200 && status < 300,
       ),
     );
 
@@ -31,9 +32,7 @@ class DioClient {
 
   late final Dio _dio;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
 
   Dio get dio => _dio;
@@ -72,12 +71,14 @@ class DioClient {
 
           // Convert Dio error to AppFailure
           final failure = _handleDioError(error);
-          return handler.reject(DioException(
-            requestOptions: error.requestOptions,
-            response: error.response,
-            error: AppException(failure),
-            type: error.type,
-          ));
+          return handler.reject(
+            DioException(
+              requestOptions: error.requestOptions,
+              response: error.response,
+              error: AppException(failure),
+              type: error.type,
+            ),
+          );
         },
       ),
     );
@@ -87,11 +88,15 @@ class DioClient {
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.sendTimeout ||
         error.type == DioExceptionType.receiveTimeout) {
-      return const AppFailure.network(message: 'Connection timeout. Please check your internet connection.');
+      return const AppFailure.network(
+        message: 'Connection timeout. Please check your internet connection.',
+      );
     }
 
     if (error.type == DioExceptionType.connectionError) {
-      return const AppFailure.network(message: 'No internet connection. Please check your network.');
+      return const AppFailure.network(
+        message: 'No internet connection. Please check your network.',
+      );
     }
 
     if (error.response != null) {
@@ -106,13 +111,19 @@ class DioClient {
           return const AppFailure.validation(message: 'Invalid request data');
 
         case 401:
-          return const AppFailure.auth(message: 'Authentication failed. Please log in again.');
+          return const AppFailure.auth(
+            message: 'Authentication failed. Please log in again.',
+          );
 
         case 403:
-          return const AppFailure.auth(message: 'You do not have permission to perform this action.');
+          return const AppFailure.auth(
+            message: 'You do not have permission to perform this action.',
+          );
 
         case 404:
-          return const AppFailure.notFound(message: 'The requested resource was not found.');
+          return const AppFailure.notFound(
+            message: 'The requested resource was not found.',
+          );
 
         case 422:
           if (data is Map) {
@@ -143,8 +154,14 @@ class DioClient {
           );
 
         default:
+          if (data is Map<String, dynamic>) {
+            return AppFailure.network(
+              message: data['detail']?.toString() ?? 'An error occurred',
+              statusCode: statusCode,
+            );
+          }
           return AppFailure.network(
-            message: data?['detail']?.toString() ?? 'An error occurred',
+            message: 'An error occurred',
             statusCode: statusCode,
           );
       }
@@ -162,7 +179,9 @@ class DioClient {
       _dio.options.headers['Authorization'] = 'Bearer $token';
       await _secureStorage.write(key: ApiConfig.accessTokenKey, value: token);
     } catch (error) {
-      throw const AppException(AppFailure.unknown(message: 'Failed to set auth token'));
+      throw const AppException(
+        AppFailure.unknown(message: 'Failed to set auth token'),
+      );
     }
   }
 
@@ -172,7 +191,9 @@ class DioClient {
       _dio.options.headers.remove('Authorization');
       await _secureStorage.delete(key: ApiConfig.accessTokenKey);
     } catch (error) {
-      throw const AppException(AppFailure.unknown(message: 'Failed to clear auth token'));
+      throw const AppException(
+        AppFailure.unknown(message: 'Failed to clear auth token'),
+      );
     }
   }
 

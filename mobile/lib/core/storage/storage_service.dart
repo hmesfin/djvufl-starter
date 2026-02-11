@@ -49,7 +49,7 @@ class StorageService {
 
   /// Get access token
   Future<String?> getAccessToken() async {
-    return await _secureStorage.read(key: StorageKeys.accessToken);
+    return _secureStorage.read(key: StorageKeys.accessToken);
   }
 
   /// Store refresh token securely
@@ -59,7 +59,7 @@ class StorageService {
 
   /// Get refresh token
   Future<String?> getRefreshToken() async {
-    return await _secureStorage.read(key: StorageKeys.refreshToken);
+    return _secureStorage.read(key: StorageKeys.refreshToken);
   }
 
   /// Clear all auth tokens

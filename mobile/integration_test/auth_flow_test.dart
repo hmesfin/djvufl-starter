@@ -9,13 +9,9 @@ import 'package:mobile/shared/utils/validators.dart';
 /// Tests the login screen form validation and UI interactions.
 void main() {
   group('Authentication Flow', () {
-    testWidgets('Login screen displays correctly', (WidgetTester tester) async {
+    testWidgets('Login screen displays correctly', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: LoginScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: LoginScreen())),
       );
 
       await tester.pumpAndSettle();
@@ -27,16 +23,15 @@ void main() {
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Login'), findsOneWidget);
       expect(find.text('Forgot Password?'), findsOneWidget);
-      expect(find.text("Don't have an account? Create Account"), findsOneWidget);
+      expect(
+        find.text("Don't have an account? Create Account"),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('Email field validation works', (WidgetTester tester) async {
+    testWidgets('Email field validation works', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: LoginScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: LoginScreen())),
       );
 
       await tester.pumpAndSettle();
@@ -50,13 +45,9 @@ void main() {
       expect(find.text('Email is required'), findsOneWidget);
     });
 
-    testWidgets('Password field has visibility toggle', (WidgetTester tester) async {
+    testWidgets('Password field has visibility toggle', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: LoginScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: LoginScreen())),
       );
 
       await tester.pumpAndSettle();
@@ -76,27 +67,23 @@ void main() {
       expect(visibilityIcons, findsOneWidget);
     });
 
-    testWidgets('Login button is disabled when loading', (WidgetTester tester) async {
+    testWidgets('Login button is disabled when loading', (tester) async {
       // This test would need to mock the auth provider to simulate loading state
       await tester.pumpWidget(
         const ProviderScope(
           overrides: [],
-          child: MaterialApp(
-            home: LoginScreen(),
-          ),
+          child: MaterialApp(home: LoginScreen()),
         ),
       );
 
       await tester.pumpAndSettle();
 
       // When not loading, button should be enabled
-      final loginButton = tester.widget<FilledButton>(
-        find.text('Login'),
-      );
+      final loginButton = tester.widget<FilledButton>(find.text('Login'));
       expect(loginButton.enabled, isTrue);
     });
 
-    testWidgets('Email validator rejects invalid email', (WidgetTester tester) async {
+    testWidgets('Email validator rejects invalid email', (tester) async {
       // Test the validator directly
       expect(validateEmail(null), 'Email is required');
       expect(validateEmail(''), 'Email is required');
@@ -109,11 +96,14 @@ void main() {
       expect(validateEmail('user.name+tag@domain.co.uk'), isNull);
     });
 
-    testWidgets('Password validator enforces minimum length', (WidgetTester tester) async {
+    testWidgets('Password validator enforces minimum length', (tester) async {
       // Test the validator directly
       expect(validatePassword(null), 'Password is required');
       expect(validatePassword(''), 'Password is required');
-      expect(validatePassword('short'), 'Password must be at least 8 characters');
+      expect(
+        validatePassword('short'),
+        'Password must be at least 8 characters',
+      );
 
       // Valid password should pass
       expect(validatePassword('password123'), isNull);

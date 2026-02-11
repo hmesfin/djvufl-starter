@@ -10,13 +10,11 @@ import 'package:mobile/shared/utils/validators.dart';
 /// Tests project form validation and UI interactions.
 void main() {
   group('Projects CRUD Flow', () {
-    testWidgets('Project form displays correctly in create mode', (WidgetTester tester) async {
+    testWidgets('Project form displays correctly in create mode', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: ProjectFormScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: ProjectFormScreen())),
       );
 
       await tester.pumpAndSettle();
@@ -33,13 +31,9 @@ void main() {
       expect(find.text('Cancel'), findsOneWidget);
     });
 
-    testWidgets('Project name validation works', (WidgetTester tester) async {
+    testWidgets('Project name validation works', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: ProjectFormScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: ProjectFormScreen())),
       );
 
       await tester.pumpAndSettle();
@@ -53,39 +47,37 @@ void main() {
       expect(find.text('Project name is required'), findsOneWidget);
     });
 
-    testWidgets('Status dropdown has all options', (WidgetTester tester) async {
+    testWidgets('Status dropdown has all options', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: ProjectFormScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: ProjectFormScreen())),
       );
 
       await tester.pumpAndSettle();
 
       // Verify status dropdown exists
       expect(find.text('Status'), findsOneWidget);
-      expect(find.byType(DropdownButtonFormField<ProjectStatus>), findsOneWidget);
+      expect(
+        find.byType(DropdownButtonFormField<ProjectStatus>),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('Priority dropdown has all options', (WidgetTester tester) async {
+    testWidgets('Priority dropdown has all options', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: ProjectFormScreen(),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: ProjectFormScreen())),
       );
 
       await tester.pumpAndSettle();
 
       // Verify priority dropdown exists
       expect(find.text('Priority'), findsOneWidget);
-      expect(find.byType(DropdownButtonFormField<ProjectPriority>), findsOneWidget);
+      expect(
+        find.byType(DropdownButtonFormField<ProjectPriority>),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('Date validation works correctly', (WidgetTester tester) async {
+    testWidgets('Date validation works correctly', (tester) async {
       // Test the validator directly
       final now = DateTime.now();
       final yesterday = now.subtract(const Duration(days: 1));
@@ -95,7 +87,10 @@ void main() {
       expect(validateDateRange(now, now), isNull);
 
       // End before start should fail
-      expect(validateDateRange(tomorrow, yesterday), 'End date must be after start date');
+      expect(
+        validateDateRange(tomorrow, yesterday),
+        'End date must be after start date',
+      );
 
       // One after the other should pass
       expect(validateDateRange(yesterday, tomorrow), isNull);
@@ -106,7 +101,7 @@ void main() {
       expect(validateDateRange(null, now), isNull);
     });
 
-    testWidgets('Project name validator works', (WidgetTester tester) async {
+    testWidgets('Project name validator works', (tester) async {
       // Test the validator directly
       expect(validateProjectName(null), 'Project name is required');
       expect(validateProjectName(''), 'Project name is required');
@@ -114,7 +109,10 @@ void main() {
 
       // Too long
       final longName = 'a' * 256;
-      expect(validateProjectName(longName), 'Project name is too long (max 255 characters)');
+      expect(
+        validateProjectName(longName),
+        'Project name is too long (max 255 characters)',
+      );
 
       // Valid names should pass
       expect(validateProjectName('My Project'), isNull);
