@@ -2,7 +2,7 @@
 
 
 yes_no() {
-    declare desc="Prompt for confirmation. \$\"\{1\}\": confirmation message."
+    # Prompt for confirmation. $1: confirmation message.
     local arg1="${1}"
 
     local response=

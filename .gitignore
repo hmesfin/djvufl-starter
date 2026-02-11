@@ -299,3 +299,53 @@ backend/apps/media/
 !.envs/.production.example/
 !.envs/.staging.example/
 !.envs/README.md
+
+
+### Flutter/Dart template
+# Flutter build artifacts
+mobile/build/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.dart_tool/
+
+# Flutter app outputs
+*.apk
+*.app
+*.ipa
+*.aab
+
+# Flutter plugin-specific
+.pub-cache/
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Android
+android/app/build/
+android/key.properties
+gradle-wrapper.jar
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+
+### Opencode Development System (ODS) - Local developer only files
+# ODS symlinks to local scripts
+deploy.sh
+error-handler.sh
+integration-test.sh
+monitor.sh
+quality-gates.sh
+
+# ODS configuration files
+quality-config.json
+
+# ODS system directory - contains local developer templates and infrastructure
+.claude/
+compose/production/postgres/maintenance/_sourced/constants.sh
