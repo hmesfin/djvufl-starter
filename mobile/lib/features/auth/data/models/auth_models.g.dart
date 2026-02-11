@@ -37,12 +37,12 @@ _$OtpVerificationRequestImpl _$$OtpVerificationRequestImplFromJson(
   Map<String, dynamic> json,
 ) => _$OtpVerificationRequestImpl(
   email: json['email'] as String,
-  otpCode: json['code'] as String,
+  otpCode: json['otpCode'] as String,
 );
 
 Map<String, dynamic> _$$OtpVerificationRequestImplToJson(
   _$OtpVerificationRequestImpl instance,
-) => <String, dynamic>{'email': instance.email, 'code': instance.otpCode};
+) => <String, dynamic>{'email': instance.email, 'otpCode': instance.otpCode};
 
 _$TokenRefreshRequestImpl _$$TokenRefreshRequestImplFromJson(
   Map<String, dynamic> json,
@@ -64,7 +64,7 @@ _$PasswordResetOtpConfirmRequestImpl
 _$$PasswordResetOtpConfirmRequestImplFromJson(Map<String, dynamic> json) =>
     _$PasswordResetOtpConfirmRequestImpl(
       email: json['email'] as String,
-      otpCode: json['code'] as String,
+      otpCode: json['otpCode'] as String,
       password: json['password'] as String,
     );
 
@@ -72,7 +72,7 @@ Map<String, dynamic> _$$PasswordResetOtpConfirmRequestImplToJson(
   _$PasswordResetOtpConfirmRequestImpl instance,
 ) => <String, dynamic>{
   'email': instance.email,
-  'code': instance.otpCode,
+  'otpCode': instance.otpCode,
   'password': instance.password,
 };
 
@@ -88,17 +88,17 @@ Map<String, dynamic> _$$AuthResponseImplToJson(_$AuthResponseImpl instance) =>
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
       email: json['email'] as String,
-      firstName: json['first_name'] as String,
-      lastName: json['last_name'] as String,
-      isEmailVerified: json['is_email_verified'] as bool,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      isEmailVerified: json['isEmailVerified'] as bool,
       profilePicture: json['profilePicture'] as String?,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
     <String, dynamic>{
       'email': instance.email,
-      'first_name': instance.firstName,
-      'last_name': instance.lastName,
-      'is_email_verified': instance.isEmailVerified,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'isEmailVerified': instance.isEmailVerified,
       'profilePicture': instance.profilePicture,
     };
