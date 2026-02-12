@@ -12,20 +12,20 @@ class ApiConfig {
   /// Get the API base URL based on environment and platform
   static String getApiBaseUrl() {
     if (kDebugMode) {
-      // Development environment
-      // Using ngrok tunnel for all platforms (works with physical devices + emulators)
-      return 'https://intersticed-latently-bertie.ngrok-free.dev';
-
-      // Alternative: Platform-specific local development
-      // Uncomment if testing with emulator and ngrok is down:
-      // if (Theme.of(context).platform == TargetPlatform.android) {
-      //   return 'http://10.0.2.2:8000';  // Android emulator
-      // }
-      // return 'http://localhost:8000';
+      // Development environment - use localhost or configurable development URL
+      // This should be configured via environment variables or build flavors
+      return const String.fromEnvironment(
+        'API_BASE_URL',
+        defaultValue: 'http://localhost:8000',
+      );
     }
 
     // Production - replace with your production API URL
-    return 'https://api.yourdomain.com';
+    // This should be configured via environment variables or build flavors
+    return const String.fromEnvironment(
+      'PRODUCTION_API_URL',
+      defaultValue: 'https://api.yourdomain.com',
+    );
   }
 
   static const String apiBaseUrl = ''; // Use getApiBaseUrl() instead
