@@ -62,7 +62,6 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
         # Find valid token
         try:
-
             token = PasswordResetToken.objects.get(
                 token=token_str,
                 is_used=False,

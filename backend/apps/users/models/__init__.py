@@ -7,9 +7,9 @@ from .otp import PasswordResetToken
 from .users import User
 
 __all__ = [
-    "User",
     "BaseOTPModel",
     "EmailVerificationOTP",
     "PasswordResetOTP",
     "PasswordResetToken",
+    "User",
 ]
