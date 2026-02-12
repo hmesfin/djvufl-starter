@@ -279,7 +279,7 @@ The application now has a **production-ready authentication, user profile, and p
 - Tests: pytest, vitest ✅
 ```
 
-2. **GitHub Actions Workflow**
+1. **GitHub Actions Workflow**
    - [x] Run tests on PR ✅
    - [x] Type checking (frontend TypeScript via vue-tsc) ✅
    - [x] Build verification (Docker builds) ✅
@@ -361,7 +361,7 @@ fullstack-reference/
    npm run generate:api
 ```
 
-3. **Frontend Updates**
+1. **Frontend Updates**
    - TypeScript shows breaking changes
    - Update affected components
    - Tests verify functionality

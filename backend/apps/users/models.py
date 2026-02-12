@@ -17,6 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.shared.models import BaseModel
 
+from .base_otp import BaseOTPModel
 from .managers import UserManager
 
 
@@ -64,7 +65,7 @@ class User(AbstractUser, BaseModel):
         return reverse("api:user-detail", kwargs={"pk": self.id})
 
 
-class EmailVerificationOTP(BaseModel):
+class EmailVerificationOTP(BaseOTPModel, BaseModel):
     """Model to store OTP codes for email verification."""
 
     user = ForeignKey(
@@ -73,26 +74,17 @@ class EmailVerificationOTP(BaseModel):
         related_name="email_otps",
         verbose_name=_("user"),
     )
-    code = CharField(_("OTP code"), max_length=6)
-    expires_at = DateTimeField(_("expires at"))
-    is_used = BooleanField(_("is used"), default=False)
 
-    class Meta:
+    class Meta(BaseOTPModel.Meta):
         verbose_name = _("Email Verification OTP")
         verbose_name_plural = _("Email Verification OTPs")
         ordering = ["-created"]
         indexes = [
             models.Index(fields=["user", "-created"]),
-            models.Index(fields=["code", "is_used"]),
         ]
 
     def __str__(self) -> str:
         return f"OTP for {self.user.email} - {self.code}"
-
-    @classmethod
-    def generate_code(cls) -> str:
-        """Generate a 6-digit OTP code."""
-        return str(secrets.randbelow(1000000)).zfill(6)
 
     @classmethod
     def create_for_user(cls, user: "User") -> "EmailVerificationOTP":
@@ -101,17 +93,8 @@ class EmailVerificationOTP(BaseModel):
         expires_at = timezone.now() + timedelta(minutes=15)
         return cls.objects.create(user=user, code=code, expires_at=expires_at)
 
-    def is_valid(self) -> bool:
-        """Check if the OTP is still valid."""
-        return not self.is_used and self.expires_at > timezone.now()
 
-    def mark_as_used(self) -> None:
-        """Mark the OTP as used."""
-        self.is_used = True
-        self.save(update_fields=["is_used", "modified"])
-
-
-class PasswordResetOTP(BaseModel):
+class PasswordResetOTP(BaseOTPModel, BaseModel):
     """Model to store OTP codes for password reset."""
 
     user = ForeignKey(
@@ -120,26 +103,17 @@ class PasswordResetOTP(BaseModel):
         related_name="password_reset_otps",
         verbose_name=_("user"),
     )
-    code = CharField(_("OTP code"), max_length=6)
-    expires_at = DateTimeField(_("expires at"))
-    is_used = BooleanField(_("is used"), default=False)
 
-    class Meta:
+    class Meta(BaseOTPModel.Meta):
         verbose_name = _("Password Reset OTP")
         verbose_name_plural = _("Password Reset OTPs")
         ordering = ["-created"]
         indexes = [
             models.Index(fields=["user", "-created"]),
-            models.Index(fields=["code", "is_used"]),
         ]
 
     def __str__(self) -> str:
         return f"Password Reset OTP for {self.user.email} - {self.code}"
-
-    @classmethod
-    def generate_code(cls) -> str:
-        """Generate a 6-digit OTP code."""
-        return str(secrets.randbelow(1000000)).zfill(6)
 
     @classmethod
     def create_for_user(cls, user: "User") -> "PasswordResetOTP":
@@ -151,15 +125,6 @@ class PasswordResetOTP(BaseModel):
         code = cls.generate_code()
         expires_at = timezone.now() + timedelta(minutes=15)
         return cls.objects.create(user=user, code=code, expires_at=expires_at)
-
-    def is_valid(self) -> bool:
-        """Check if the OTP is still valid."""
-        return not self.is_used and self.expires_at > timezone.now()
-
-    def mark_as_used(self) -> None:
-        """Mark the OTP as used."""
-        self.is_used = True
-        self.save(update_fields=["is_used", "modified"])
 
 
 class PasswordResetToken(BaseModel):
