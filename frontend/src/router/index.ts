@@ -103,6 +103,17 @@ const router = createRouter({
           component: () => import('@/views/gigs/GigDetailView.vue'),
           props: true,
         },
+        {
+          path: 'messages',
+          name: 'conversation-list',
+          component: () => import('@/views/messaging/ConversationListView.vue'),
+        },
+        {
+          path: 'messages/:uuid',
+          name: 'conversation',
+          component: () => import('@/views/messaging/ConversationView.vue'),
+          props: true,
+        },
       ],
     },
   ],

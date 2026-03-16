@@ -11,6 +11,7 @@ import {
   User,
   Users,
   Briefcase,
+  MessageSquare,
   Menu,
   X,
 } from 'lucide-vue-next'
@@ -45,6 +46,7 @@ const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, route: 'dashboard' },
   { name: 'My Gigs', icon: Briefcase, route: 'gig-list' },
   { name: 'Find Agents', icon: Users, route: 'agent-directory' },
+  { name: 'Messages', icon: MessageSquare, route: 'conversation-list' },
   { name: 'Profile', icon: User, route: 'profile' },
   { name: 'Settings', icon: Settings, route: 'settings' },
 ]
