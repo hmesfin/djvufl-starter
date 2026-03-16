@@ -3,8 +3,10 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGigs } from '@/composables/useGigs'
 import { useProfessionals } from '@/composables/useProfessionals'
+import { usePayments } from '@/composables/usePayments'
 import GigStatusBadge from '@/components/gigs/GigStatusBadge.vue'
 import GigInvitationList from '@/components/gigs/GigInvitationList.vue'
+import PaymentStatusBadge from '@/components/payments/PaymentStatusBadge.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -52,6 +54,7 @@ const {
   respondToInvitation,
 } = useGigs()
 const { myProfile, fetchMyProfile } = useProfessionals()
+const { paymentStatus, fetchPaymentStatus } = usePayments()
 
 // Dialog state for inviting agent
 const showInviteDialog = ref(false)
@@ -96,6 +99,12 @@ const currentStepIndex = computed(() => {
     return -1
   }
   return statusSteps.findIndex((s) => s.status === currentGig.value?.status)
+})
+
+const showPaymentStatus = computed(() => {
+  if (!currentGig.value) return false
+  const paymentStatuses = ['accepted', 'in_progress', 'completed']
+  return paymentStatuses.includes(currentGig.value.status ?? '')
 })
 
 const myInvitation = computed(() => {
@@ -179,6 +188,7 @@ onMounted(async () => {
     fetchGig(gigUuid.value),
     fetchInvitations(gigUuid.value),
     fetchMyProfile(),
+    fetchPaymentStatus(gigUuid.value),
   ])
 })
 </script>
@@ -417,6 +427,26 @@ onMounted(async () => {
                 @accept="handleAcceptInvitation"
                 @decline="handleDeclineInvitation"
               />
+            </CardContent>
+          </Card>
+
+          <!-- Payment Status -->
+          <Card v-if="showPaymentStatus && paymentStatus">
+            <CardHeader>
+              <div class="flex items-center justify-between">
+                <CardTitle class="text-lg">Payment</CardTitle>
+                <PaymentStatusBadge :status="paymentStatus.status" />
+              </div>
+            </CardHeader>
+            <CardContent class="space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-muted-foreground">Amount</span>
+                <span class="font-medium">${{ paymentStatus.amount }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-muted-foreground">Platform Fee</span>
+                <span class="font-medium">${{ paymentStatus.platform_fee }}</span>
+              </div>
             </CardContent>
           </Card>
         </div>

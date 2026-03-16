@@ -21,994 +21,668 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 /**
  * Reset password using valid OTP code.
  */
-export const apiAuthPasswordResetOtpConfirmCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetOtpConfirmCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthPasswordResetOtpConfirmCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/password-reset-otp/confirm/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthPasswordResetOtpConfirmCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetOtpConfirmCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthPasswordResetOtpConfirmCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/password-reset-otp/confirm/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Request password reset and send OTP code via email.
  */
-export const apiAuthPasswordResetOtpRequestCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetOtpRequestCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthPasswordResetOtpRequestCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/password-reset-otp/request/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthPasswordResetOtpRequestCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetOtpRequestCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthPasswordResetOtpRequestCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/password-reset-otp/request/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Reset password using valid token.
  */
-export const apiAuthPasswordResetConfirmCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetConfirmCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthPasswordResetConfirmCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/password-reset/confirm/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthPasswordResetConfirmCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetConfirmCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthPasswordResetConfirmCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/password-reset/confirm/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Request password reset and send email with reset token.
  */
-export const apiAuthPasswordResetRequestCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetRequestCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthPasswordResetRequestCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/password-reset/request/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthPasswordResetRequestCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthPasswordResetRequestCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthPasswordResetRequestCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/password-reset/request/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * API endpoint for user registration with OTP email verification.
  */
-export const apiAuthRegisterCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthRegisterCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthRegisterCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/register/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthRegisterCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthRegisterCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthRegisterCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/register/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Resend OTP code to user's email.
  */
-export const apiAuthResendOtpCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthResendOtpCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthResendOtpCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/resend-otp/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthResendOtpCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthResendOtpCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthResendOtpCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/resend-otp/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Obtain JWT access and refresh tokens using email and password. Email must be verified.
  */
-export const apiAuthTokenCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthTokenCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthTokenCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        url: '/api/auth/token/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthTokenCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthTokenCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthTokenCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/auth/token/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * JWT token refresh view (uses default SimpleJWT behavior).
  */
-export const apiAuthTokenRefreshCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthTokenRefreshCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthTokenRefreshCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        url: '/api/auth/token/refresh/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthTokenRefreshCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthTokenRefreshCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthTokenRefreshCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/auth/token/refresh/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Verify OTP code and mark user email as verified.
  */
-export const apiAuthVerifyOtpCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthVerifyOtpCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiAuthVerifyOtpCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/auth/verify-otp/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiAuthVerifyOtpCreate = <ThrowOnError extends boolean = false>(options: Options<ApiAuthVerifyOtpCreateData, ThrowOnError>) => (options.client ?? client).post<ApiAuthVerifyOtpCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/auth/verify-otp/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List and create conversations.
  */
-export const apiConversationsList = <ThrowOnError extends boolean = false>(options?: Options<ApiConversationsListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiConversationsListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/conversations/',
-        ...options
-    });
-};
+export const apiConversationsList = <ThrowOnError extends boolean = false>(options?: Options<ApiConversationsListData, ThrowOnError>) => (options?.client ?? client).get<ApiConversationsListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/conversations/',
+    ...options
+});
 
 /**
  * List and create conversations.
  */
-export const apiConversationsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiConversationsCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/conversations/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiConversationsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsCreateData, ThrowOnError>) => (options.client ?? client).post<ApiConversationsCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/conversations/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List and create messages in a conversation.
  */
-export const apiConversationsMessagesList = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsMessagesListData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiConversationsMessagesListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/conversations/{conversation_uuid}/messages/',
-        ...options
-    });
-};
+export const apiConversationsMessagesList = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsMessagesListData, ThrowOnError>) => (options.client ?? client).get<ApiConversationsMessagesListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/conversations/{conversation_uuid}/messages/',
+    ...options
+});
 
 /**
  * List and create messages in a conversation.
  */
-export const apiConversationsMessagesCreate = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsMessagesCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiConversationsMessagesCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/conversations/{conversation_uuid}/messages/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiConversationsMessagesCreate = <ThrowOnError extends boolean = false>(options: Options<ApiConversationsMessagesCreateData, ThrowOnError>) => (options.client ?? client).post<ApiConversationsMessagesCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/conversations/{conversation_uuid}/messages/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List and create gigs.
  */
-export const apiGigsList = <ThrowOnError extends boolean = false>(options?: Options<ApiGigsListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiGigsListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/',
-        ...options
-    });
-};
+export const apiGigsList = <ThrowOnError extends boolean = false>(options?: Options<ApiGigsListData, ThrowOnError>) => (options?.client ?? client).get<ApiGigsListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/',
+    ...options
+});
 
 /**
  * List and create gigs.
  */
-export const apiGigsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiGigsCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsCreateData, ThrowOnError>) => (options.client ?? client).post<ApiGigsCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List and create invitations for a gig.
  */
-export const apiGigsInvitationsList = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsListData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiGigsInvitationsListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{gig_uuid}/invitations/',
-        ...options
-    });
-};
+export const apiGigsInvitationsList = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsListData, ThrowOnError>) => (options.client ?? client).get<ApiGigsInvitationsListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{gig_uuid}/invitations/',
+    ...options
+});
 
 /**
  * List and create invitations for a gig.
  */
-export const apiGigsInvitationsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiGigsInvitationsCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{gig_uuid}/invitations/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsInvitationsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsCreateData, ThrowOnError>) => (options.client ?? client).post<ApiGigsInvitationsCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{gig_uuid}/invitations/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * View and respond to a gig invitation.
  */
-export const apiGigsInvitationsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsRetrieveData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiGigsInvitationsRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
-        ...options
-    });
-};
+export const apiGigsInvitationsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsRetrieveData, ThrowOnError>) => (options.client ?? client).get<ApiGigsInvitationsRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
+    ...options
+});
 
 /**
  * View and respond to a gig invitation.
  */
-export const apiGigsInvitationsPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsPartialUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).patch<ApiGigsInvitationsPartialUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsInvitationsPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsPartialUpdateData, ThrowOnError>) => (options.client ?? client).patch<ApiGigsInvitationsPartialUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * View and respond to a gig invitation.
  */
-export const apiGigsInvitationsUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).put<ApiGigsInvitationsUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsInvitationsUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsInvitationsUpdateData, ThrowOnError>) => (options.client ?? client).put<ApiGigsInvitationsUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Retrieve and update a gig.
  */
-export const apiGigsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiGigsRetrieveData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiGigsRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{uuid}/',
-        ...options
-    });
-};
+export const apiGigsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiGigsRetrieveData, ThrowOnError>) => (options.client ?? client).get<ApiGigsRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{uuid}/',
+    ...options
+});
 
 /**
  * Retrieve and update a gig.
  */
-export const apiGigsPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsPartialUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).patch<ApiGigsPartialUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{uuid}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsPartialUpdateData, ThrowOnError>) => (options.client ?? client).patch<ApiGigsPartialUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{uuid}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Retrieve and update a gig.
  */
-export const apiGigsUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).put<ApiGigsUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{uuid}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsUpdateData, ThrowOnError>) => (options.client ?? client).put<ApiGigsUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{uuid}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Transition a gig's status (owner only).
  */
-export const apiGigsTransitionCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsTransitionCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiGigsTransitionCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/gigs/{uuid}/transition/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiGigsTransitionCreate = <ThrowOnError extends boolean = false>(options: Options<ApiGigsTransitionCreateData, ThrowOnError>) => (options.client ?? client).post<ApiGigsTransitionCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/gigs/{uuid}/transition/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List all metros.
  */
-export const apiMetrosList = <ThrowOnError extends boolean = false>(options?: Options<ApiMetrosListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiMetrosListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/metros/',
-        ...options
-    });
-};
+export const apiMetrosList = <ThrowOnError extends boolean = false>(options?: Options<ApiMetrosListData, ThrowOnError>) => (options?.client ?? client).get<ApiMetrosListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/metros/',
+    ...options
+});
 
-export const apiPaymentsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiPaymentsRetrieveData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiPaymentsRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/payments/{gig_uuid}/',
-        ...options
-    });
-};
+export const apiPaymentsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiPaymentsRetrieveData, ThrowOnError>) => (options.client ?? client).get<ApiPaymentsRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/payments/{gig_uuid}/',
+    ...options
+});
 
-export const apiPaymentsStripeConnectCreate = <ThrowOnError extends boolean = false>(options?: Options<ApiPaymentsStripeConnectCreateData, ThrowOnError>) => {
-    return (options?.client ?? client).post<ApiPaymentsStripeConnectCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/payments/stripe-connect/',
-        ...options
-    });
-};
+export const apiPaymentsStripeConnectCreate = <ThrowOnError extends boolean = false>(options?: Options<ApiPaymentsStripeConnectCreateData, ThrowOnError>) => (options?.client ?? client).post<ApiPaymentsStripeConnectCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/payments/stripe-connect/',
+    ...options
+});
 
-export const apiPaymentsWebhookCreate = <ThrowOnError extends boolean = false>(options: Options<ApiPaymentsWebhookCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiPaymentsWebhookCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        url: '/api/payments/webhook/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiPaymentsWebhookCreate = <ThrowOnError extends boolean = false>(options: Options<ApiPaymentsWebhookCreateData, ThrowOnError>) => (options.client ?? client).post<ApiPaymentsWebhookCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/payments/webhook/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List verified professional profiles with filtering and search.
  */
-export const apiProfessionalsList = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiProfessionalsListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/',
-        ...options
-    });
-};
+export const apiProfessionalsList = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsListData, ThrowOnError>) => (options?.client ?? client).get<ApiProfessionalsListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/',
+    ...options
+});
 
 /**
  * Retrieve a single verified professional profile.
  */
-export const apiProfessionalsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsRetrieveData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiProfessionalsRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/{uuid}/',
-        ...options
-    });
-};
+export const apiProfessionalsRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsRetrieveData, ThrowOnError>) => (options.client ?? client).get<ApiProfessionalsRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/{uuid}/',
+    ...options
+});
 
 /**
  * List reviews received by a professional.
  */
-export const apiProfessionalsReviewsList = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsReviewsListData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiProfessionalsReviewsListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/{uuid}/reviews/',
-        ...options
-    });
-};
+export const apiProfessionalsReviewsList = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsReviewsListData, ThrowOnError>) => (options.client ?? client).get<ApiProfessionalsReviewsListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/{uuid}/reviews/',
+    ...options
+});
 
 /**
  * Manage own professional profile (GET/POST/PATCH).
  */
-export const apiProfessionalsMeRetrieve = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsMeRetrieveData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiProfessionalsMeRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/me/',
-        ...options
-    });
-};
+export const apiProfessionalsMeRetrieve = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsMeRetrieveData, ThrowOnError>) => (options?.client ?? client).get<ApiProfessionalsMeRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/me/',
+    ...options
+});
 
 /**
  * Manage own professional profile (GET/POST/PATCH).
  */
-export const apiProfessionalsMePartialUpdate = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsMePartialUpdateData, ThrowOnError>) => {
-    return (options?.client ?? client).patch<ApiProfessionalsMePartialUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/me/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
+export const apiProfessionalsMePartialUpdate = <ThrowOnError extends boolean = false>(options?: Options<ApiProfessionalsMePartialUpdateData, ThrowOnError>) => (options?.client ?? client).patch<ApiProfessionalsMePartialUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/me/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
 
 /**
  * Manage own professional profile (GET/POST/PATCH).
  */
-export const apiProfessionalsMeCreate = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsMeCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiProfessionalsMeCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/professionals/me/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiProfessionalsMeCreate = <ThrowOnError extends boolean = false>(options: Options<ApiProfessionalsMeCreateData, ThrowOnError>) => (options.client ?? client).post<ApiProfessionalsMeCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/professionals/me/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Create a review for a completed gig.
  */
-export const apiReviewsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiReviewsCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiReviewsCreateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/reviews/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiReviewsCreate = <ThrowOnError extends boolean = false>(options: Options<ApiReviewsCreateData, ThrowOnError>) => (options.client ?? client).post<ApiReviewsCreateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/reviews/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List all service areas.
  */
-export const apiServiceAreasList = <ThrowOnError extends boolean = false>(options?: Options<ApiServiceAreasListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiServiceAreasListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/service-areas/',
-        ...options
-    });
-};
+export const apiServiceAreasList = <ThrowOnError extends boolean = false>(options?: Options<ApiServiceAreasListData, ThrowOnError>) => (options?.client ?? client).get<ApiServiceAreasListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/service-areas/',
+    ...options
+});
 
-export const apiUsersList = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersListData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiUsersListResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/',
-        ...options
-    });
-};
+export const apiUsersList = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersListData, ThrowOnError>) => (options?.client ?? client).get<ApiUsersListResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/',
+    ...options
+});
 
-export const apiUsersRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiUsersRetrieveData, ThrowOnError>) => {
-    return (options.client ?? client).get<ApiUsersRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/{id}/',
-        ...options
-    });
-};
+export const apiUsersRetrieve = <ThrowOnError extends boolean = false>(options: Options<ApiUsersRetrieveData, ThrowOnError>) => (options.client ?? client).get<ApiUsersRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/{id}/',
+    ...options
+});
 
-export const apiUsersPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersPartialUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).patch<ApiUsersPartialUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/{id}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiUsersPartialUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersPartialUpdateData, ThrowOnError>) => (options.client ?? client).patch<ApiUsersPartialUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/{id}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
-export const apiUsersUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersUpdateData, ThrowOnError>) => {
-    return (options.client ?? client).put<ApiUsersUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/{id}/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiUsersUpdate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersUpdateData, ThrowOnError>) => (options.client ?? client).put<ApiUsersUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/{id}/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Change user password with old password verification.
  */
-export const apiUsersChangePasswordCreate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersChangePasswordCreateData, ThrowOnError>) => {
-    return (options.client ?? client).post<ApiUsersChangePasswordCreateResponses, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/change-password/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const apiUsersChangePasswordCreate = <ThrowOnError extends boolean = false>(options: Options<ApiUsersChangePasswordCreateData, ThrowOnError>) => (options.client ?? client).post<ApiUsersChangePasswordCreateResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/change-password/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Get or update the current user's profile.
  */
-export const apiUsersMeRetrieve = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersMeRetrieveData, ThrowOnError>) => {
-    return (options?.client ?? client).get<ApiUsersMeRetrieveResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/me/',
-        ...options
-    });
-};
+export const apiUsersMeRetrieve = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersMeRetrieveData, ThrowOnError>) => (options?.client ?? client).get<ApiUsersMeRetrieveResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/me/',
+    ...options
+});
 
 /**
  * Get or update the current user's profile.
  */
-export const apiUsersMePartialUpdate = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersMePartialUpdateData, ThrowOnError>) => {
-    return (options?.client ?? client).patch<ApiUsersMePartialUpdateResponses, unknown, ThrowOnError>({
-        responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            },
-            {
-                in: 'cookie',
-                name: 'sessionid',
-                type: 'apiKey'
-            }
-        ],
-        url: '/api/users/me/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
+export const apiUsersMePartialUpdate = <ThrowOnError extends boolean = false>(options?: Options<ApiUsersMePartialUpdateData, ThrowOnError>) => (options?.client ?? client).patch<ApiUsersMePartialUpdateResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }, {
+            in: 'cookie',
+            name: 'sessionid',
+            type: 'apiKey'
+        }],
+    url: '/api/users/me/',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});

@@ -113,6 +113,8 @@ class ProfessionalProfileCreateSerializer(
 class MyProfessionalProfileSerializer(ProfessionalProfileSerializer):
     """Extended serializer that includes private fields for the profile owner."""
 
+    has_stripe_account = serializers.SerializerMethodField()
+
     class Meta(ProfessionalProfileSerializer.Meta):
         fields = [
             *ProfessionalProfileSerializer.Meta.fields,
@@ -120,5 +122,10 @@ class MyProfessionalProfileSerializer(ProfessionalProfileSerializer):
             "license_expiry",
             "verified_at",
             "rejection_reason",
+            "has_stripe_account",
         ]
         read_only_fields = fields
+
+    def get_has_stripe_account(self, obj: ProfessionalProfile) -> bool:
+        """Return whether the professional has connected a Stripe account."""
+        return bool(obj.stripe_connect_account_id)

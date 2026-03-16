@@ -71,6 +71,11 @@ const router = createRouter({
           component: () => import('@/views/user/SettingsView.vue'),
         },
         {
+          path: 'settings/stripe/complete',
+          name: 'stripe-complete',
+          component: () => import('@/views/payments/StripeCompleteView.vue'),
+        },
+        {
           path: 'onboarding',
           name: 'professional-onboarding',
           component: () => import('@/views/onboarding/ProfessionalOnboardingView.vue'),
