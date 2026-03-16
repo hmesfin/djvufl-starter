@@ -70,6 +70,12 @@ const router = createRouter({
           name: 'settings',
           component: () => import('@/views/user/SettingsView.vue'),
         },
+        {
+          path: 'onboarding',
+          name: 'professional-onboarding',
+          component: () => import('@/views/onboarding/ProfessionalOnboardingView.vue'),
+          meta: { requiresAuth: true },
+        },
       ],
     },
   ],

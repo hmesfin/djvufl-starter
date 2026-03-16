@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
+import { useProfessionals } from '@/composables/useProfessionals'
 import { Button } from '@/components/ui/button'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import {
@@ -13,8 +14,20 @@ import {
 } from 'lucide-vue-next'
 
 const router = useRouter()
+const route = useRoute()
 const { logout, user } = useAuth()
+const { fetchMyProfile } = useProfessionals()
 const sidebarOpen = ref(false)
+
+onMounted(async () => {
+  // Check if user has a professional profile; redirect to onboarding if not
+  if (route.name !== 'professional-onboarding') {
+    const result = await fetchMyProfile()
+    if (result.notFound) {
+      router.push({ name: 'professional-onboarding' })
+    }
+  }
+})
 
 function handleLogout(): void {
   logout()
