@@ -3,6 +3,11 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
+from apps.professionals.api.views import MetroListView
+from apps.professionals.api.views import MyProfessionalProfileView
+from apps.professionals.api.views import ProfessionalProfileDetailView
+from apps.professionals.api.views import ProfessionalProfileListView
+from apps.professionals.api.views import ServiceAreaListView
 from apps.users.api.views import EmailTokenObtainPairView
 from apps.users.api.views import EmailTokenRefreshView
 from apps.users.api.views import OTPVerificationView
@@ -60,4 +65,23 @@ urlpatterns = [
         EmailTokenRefreshView.as_view(),
         name="auth-token-refresh",
     ),
+    # Professional endpoints (me/ must come before <uuid:uuid>/)
+    path(
+        "professionals/me/",
+        MyProfessionalProfileView.as_view(),
+        name="professional-me",
+    ),
+    path(
+        "professionals/",
+        ProfessionalProfileListView.as_view(),
+        name="professional-list",
+    ),
+    path(
+        "professionals/<uuid:uuid>/",
+        ProfessionalProfileDetailView.as_view(),
+        name="professional-detail",
+    ),
+    # Service areas and metros
+    path("service-areas/", ServiceAreaListView.as_view(), name="servicearea-list"),
+    path("metros/", MetroListView.as_view(), name="metro-list"),
 ]
