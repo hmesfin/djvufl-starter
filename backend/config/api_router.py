@@ -14,6 +14,11 @@ from apps.messaging.api.views import (
     ConversationListCreateView,
     MessageListCreateView,
 )
+from apps.payments.api.views import (
+    PaymentDetailView,
+    StripeConnectOnboardView,
+    StripeWebhookView,
+)
 from apps.reviews.api.views import (
     ProfessionalReviewListView,
     ReviewCreateView,
@@ -134,5 +139,21 @@ urlpatterns = [
         "professionals/<uuid:uuid>/reviews/",
         ProfessionalReviewListView.as_view(),
         name="professional-reviews",
+    ),
+    # Payment endpoints
+    path(
+        "payments/stripe-connect/",
+        StripeConnectOnboardView.as_view(),
+        name="stripe-connect-onboard",
+    ),
+    path(
+        "payments/webhook/",
+        StripeWebhookView.as_view(),
+        name="stripe-webhook",
+    ),
+    path(
+        "payments/<uuid:gig_uuid>/",
+        PaymentDetailView.as_view(),
+        name="payment-detail",
     ),
 ]

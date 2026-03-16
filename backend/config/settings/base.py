@@ -90,6 +90,7 @@ LOCAL_APPS = [
     "apps.gigs",
     "apps.messaging",
     "apps.reviews",
+    "apps.payments",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -343,5 +344,13 @@ SPECTACULAR_SETTINGS = {
     # Important for TypeScript generation:
     "ENUM_NAME_OVERRIDES": {},
 }
+# Stripe
+# ------------------------------------------------------------------------------
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY", default="sk_test_placeholder")
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY", default="pk_test_placeholder")
+STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET", default="whsec_placeholder")
+STRIPE_PLATFORM_FEE_PERCENT = env.float("STRIPE_PLATFORM_FEE_PERCENT", default=0.10)
+FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:5173")
+
 # Your stuff...
 # ------------------------------------------------------------------------------
