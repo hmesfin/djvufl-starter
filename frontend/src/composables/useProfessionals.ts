@@ -12,11 +12,14 @@ import {
   apiProfessionalsMeCreate,
   apiProfessionalsMePartialUpdate,
   apiProfessionalsList,
+  apiProfessionalsRetrieve,
+  apiProfessionalsReviewsList,
   apiServiceAreasList,
 } from '@/api/sdk.gen'
 import type {
   MyProfessionalProfile,
   ProfessionalProfile,
+  Review,
   ServiceArea,
   ProfessionalProfileCreateRequestWritable,
   PatchedProfessionalProfileCreateRequestWritable,
@@ -82,7 +85,9 @@ function parseError(error: unknown): ProfessionalError {
 
 export function useProfessionals() {
   const myProfile = ref<MyProfessionalProfile | null>(null)
+  const profile = ref<ProfessionalProfile | null>(null)
   const professionals = ref<ProfessionalProfile[]>([])
+  const reviews = ref<Review[]>([])
   const serviceAreas = ref<ServiceArea[]>([])
   const isLoading = ref(false)
   const error = ref<ProfessionalError | null>(null)
@@ -229,10 +234,70 @@ export function useProfessionals() {
     }
   }
 
+  /**
+   * Fetch a single professional profile by UUID.
+   */
+  async function fetchProfile(uuid: string): Promise<{ success: boolean }> {
+    error.value = null
+    isLoading.value = true
+
+    try {
+      const response = await apiProfessionalsRetrieve({
+        client: apiClient,
+        path: { uuid },
+      })
+
+      if (response && 'error' in response && response.error) {
+        throw response
+      }
+
+      profile.value = response.data ?? null
+      return { success: true }
+    } catch (err) {
+      error.value = parseError(err)
+      return { success: false }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  /**
+   * Fetch reviews for a professional by UUID.
+   */
+  async function fetchReviews(
+    uuid: string,
+    page?: number
+  ): Promise<{ success: boolean; total?: number }> {
+    error.value = null
+    isLoading.value = true
+
+    try {
+      const response = await apiProfessionalsReviewsList({
+        client: apiClient,
+        path: { uuid },
+        query: page ? { page } : undefined,
+      })
+
+      if (response && 'error' in response && response.error) {
+        throw response
+      }
+
+      reviews.value = response.data?.results ?? []
+      return { success: true, total: response.data?.count }
+    } catch (err) {
+      error.value = parseError(err)
+      return { success: false }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     // State
     myProfile,
+    profile,
     professionals,
+    reviews,
     serviceAreas,
     isLoading,
     error,
@@ -242,6 +307,8 @@ export function useProfessionals() {
     createProfile,
     updateProfile,
     searchProfessionals,
+    fetchProfile,
+    fetchReviews,
     fetchServiceAreas,
   }
 }

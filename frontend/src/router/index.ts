@@ -76,6 +76,17 @@ const router = createRouter({
           component: () => import('@/views/onboarding/ProfessionalOnboardingView.vue'),
           meta: { requiresAuth: true },
         },
+        {
+          path: 'agents',
+          name: 'agent-directory',
+          component: () => import('@/views/professionals/AgentDirectoryView.vue'),
+        },
+        {
+          path: 'agents/:uuid',
+          name: 'agent-profile',
+          component: () => import('@/views/professionals/AgentProfileView.vue'),
+          props: true,
+        },
       ],
     },
   ],

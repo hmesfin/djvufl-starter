@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Settings,
   User,
+  Users,
   Menu,
   X,
 } from 'lucide-vue-next'
@@ -41,6 +42,7 @@ function toggleSidebar(): void {
 // Navigation items
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, route: 'dashboard' },
+  { name: 'Find Agents', icon: Users, route: 'agent-directory' },
   { name: 'Profile', icon: User, route: 'profile' },
   { name: 'Settings', icon: Settings, route: 'settings' },
 ]
