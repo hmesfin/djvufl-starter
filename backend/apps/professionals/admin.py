@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils import timezone
 
 from apps.professionals.models import Metro, ProfessionalProfile, ServiceArea
 
@@ -39,3 +40,16 @@ class ProfessionalProfileAdmin(admin.ModelAdmin):
         "average_response_time",
     ]
     raw_id_fields = ["user", "verified_by"]
+    actions = ["verify_profile", "reject_profile"]
+
+    @admin.action(description="Verify selected profiles")
+    def verify_profile(self, request, queryset):
+        queryset.update(
+            license_status="verified",
+            verified_at=timezone.now(),
+            verified_by=request.user,
+        )
+
+    @admin.action(description="Reject selected profiles")
+    def reject_profile(self, request, queryset):
+        queryset.update(license_status="rejected")
