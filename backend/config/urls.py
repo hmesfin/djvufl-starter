@@ -12,7 +12,6 @@ urlpatterns = [
     # Django Admin
     path(settings.ADMIN_URL, admin.site.urls),
     # API URLS
-    path("api/", include("apps.projects.api.urls")),
     path("api/", include("config.api_router")),
     # OpenAPI schema
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),

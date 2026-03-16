@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import {
   LayoutDashboard,
-  FolderKanban,
   Settings,
   User,
   Menu,
@@ -29,7 +28,6 @@ function toggleSidebar(): void {
 // Navigation items
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, route: 'dashboard' },
-  { name: 'Projects', icon: FolderKanban, route: 'projects' },
   { name: 'Profile', icon: User, route: 'profile' },
   { name: 'Settings', icon: Settings, route: 'settings' },
 ]

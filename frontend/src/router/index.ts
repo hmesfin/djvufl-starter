@@ -61,11 +61,6 @@ const router = createRouter({
           component: () => import('@/views/dashboard/DashboardView.vue'),
         },
         {
-          path: 'projects',
-          name: 'projects',
-          component: () => import('@/views/projects/ProjectListView.vue'),
-        },
-        {
           path: 'profile',
           name: 'profile',
           component: () => import('@/views/user/ProfileView.vue'),
@@ -74,11 +69,6 @@ const router = createRouter({
           path: 'settings',
           name: 'settings',
           component: () => import('@/views/user/SettingsView.vue'),
-        },
-        {
-          path: 'projects/:uuid',
-          name: 'project-detail',
-          component: () => import('@/views/projects/ProjectDetailView.vue'),
         },
       ],
     },

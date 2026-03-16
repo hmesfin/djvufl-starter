@@ -39,16 +39,6 @@ export const queryClient = new QueryClient({
  * Centralized query key management for type safety and consistency
  */
 export const queryKeys = {
-  // Projects
-  projects: {
-    all: ['projects'] as const,
-    lists: () => [...queryKeys.projects.all, 'list'] as const,
-    list: (filters?: Record<string, unknown>) =>
-      [...queryKeys.projects.lists(), { filters }] as const,
-    details: () => [...queryKeys.projects.all, 'detail'] as const,
-    detail: (uuid: string) => [...queryKeys.projects.details(), uuid] as const,
-  },
-
   // Users
   users: {
     all: ['users'] as const,

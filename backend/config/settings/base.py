@@ -86,7 +86,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "apps.users",
-    "apps.projects",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -338,10 +337,7 @@ SPECTACULAR_SETTINGS = {
     "SCHEMA_PATH_PREFIX": "/api/v1",
     "COMPONENT_SPLIT_REQUEST": True,
     # Important for TypeScript generation:
-    "ENUM_NAME_OVERRIDES": {
-        "StatusEnum": "apps.projects.models.Project.Status",
-        "PriorityEnum": "apps.projects.models.Project.Priority",
-    },
+    "ENUM_NAME_OVERRIDES": {},
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
