@@ -749,69 +749,6 @@ export type MyProfessionalProfileWritable = {
     [key: string]: unknown;
 };
 
-export type PaginatedConversationListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ConversationWritable>;
-};
-
-export type PaginatedGigInvitationListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<GigInvitationWritable>;
-};
-
-export type PaginatedGigListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<GigWritable>;
-};
-
-export type PaginatedMessageListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<MessageWritable>;
-};
-
-export type PaginatedMetroListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<MetroWritable>;
-};
-
-export type PaginatedProfessionalProfileListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ProfessionalProfileWritable>;
-};
-
-export type PaginatedReviewListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ReviewWritable>;
-};
-
-export type PaginatedServiceAreaListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ServiceAreaWritable>;
-};
-
-export type PaginatedUserListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<UserWritable>;
-};
-
 /**
  * Serializer for password reset confirmation.
  */

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def send_verification_status_email(profile_id: int, status: str) -> None:
+def send_verification_status_email(profile_id: str, status: str) -> None:
     from apps.professionals.models import ProfessionalProfile
 
     profile = ProfessionalProfile.objects.select_related("user").get(pk=profile_id)

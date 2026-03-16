@@ -1,4 +1,5 @@
 import logging
+from typing import cast
 
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, status
@@ -11,6 +12,7 @@ from apps.gigs.api.permissions import IsVerifiedProfessional
 from apps.payments.models import Payment
 from apps.payments.services import create_connect_account_link
 from apps.payments.services import process_webhook
+from apps.users.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +28,8 @@ class StripeConnectOnboardView(APIView):
         )},
     )
     def post(self, request: Request) -> Response:
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         url = create_connect_account_link(profile)
         return Response({"url": url}, status=status.HTTP_200_OK)
 

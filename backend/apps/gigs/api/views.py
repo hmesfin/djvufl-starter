@@ -1,5 +1,7 @@
 """Views for the gigs app."""
 
+from typing import cast
+
 from django.db.models import Q, QuerySet
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
@@ -8,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.gigs.models import Gig, GigInvitation, GigStatus
+from apps.users.models import User
 
 from .permissions import IsVerifiedProfessional
 from .serializers import (
@@ -36,7 +39,8 @@ class GigListCreateView(generics.ListCreateAPIView):
         marketplace = self.request.query_params.get("marketplace")
         if marketplace == "true":
             return qs.filter(status=GigStatus.POSTED)
-        profile = self.request.user.professional_profile
+        user = cast(User, self.request.user)
+        profile = user.professional_profile
         return qs.filter(Q(posted_by=profile) | Q(assigned_to=profile))
 
     def create(self, request: Request, *args, **kwargs) -> Response:
@@ -78,7 +82,8 @@ class GigStatusTransitionView(APIView):
         responses={200: GigSerializer},
     )
     def post(self, request: Request, uuid: str) -> Response:
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         try:
             gig = Gig.objects.select_related(
                 "posted_by__user", "assigned_to__user"
@@ -122,7 +127,8 @@ class GigInvitationListCreateView(generics.ListCreateAPIView):
                 {"detail": "Gig not found."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         if gig.posted_by != profile:
             return Response(
                 {"detail": "Only the gig poster can create invitations."},

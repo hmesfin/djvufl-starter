@@ -80,6 +80,7 @@ class TestCreateReview:
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data["is_from_poster"] is False
         review = Review.objects.first()
+        assert review is not None
         assert review.reviewer == assignee
         assert review.reviewee == poster
 

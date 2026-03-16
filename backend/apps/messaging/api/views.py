@@ -1,5 +1,7 @@
 """Views for the messaging app."""
 
+from typing import cast
+
 from django.db.models import Q, QuerySet
 from rest_framework import generics, status
 from rest_framework.request import Request
@@ -9,6 +11,7 @@ from apps.gigs.api.permissions import IsVerifiedProfessional
 from apps.gigs.models import Gig
 from apps.messaging.models import Conversation, Message
 from apps.professionals.models import ProfessionalProfile
+from apps.users.models import User
 
 from .serializers import (
     ConversationCreateSerializer,
@@ -29,7 +32,8 @@ class ConversationListCreateView(generics.ListCreateAPIView):
         return ConversationSerializer
 
     def get_queryset(self) -> QuerySet[Conversation]:
-        profile = self.request.user.professional_profile
+        user = cast(User, self.request.user)
+        profile = user.professional_profile
         return Conversation.objects.filter(
             Q(participant_1=profile) | Q(participant_2=profile)
         ).select_related(
@@ -41,7 +45,8 @@ class ConversationListCreateView(generics.ListCreateAPIView):
         serializer = ConversationCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         participant_uuid = serializer.validated_data["participant_uuid"]
         gig_uuid = serializer.validated_data.get("gig_uuid")
 
@@ -116,7 +121,8 @@ class MessageListCreateView(generics.ListCreateAPIView):
         return Conversation.objects.get(id=self.kwargs["conversation_uuid"])
 
     def _check_participant(self, request: Request, conversation: Conversation) -> bool:
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         return profile in (conversation.participant_1, conversation.participant_2)
 
     def get_queryset(self) -> QuerySet[Message]:
@@ -159,7 +165,8 @@ class MessageListCreateView(generics.ListCreateAPIView):
         serializer = MessageCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         message = Message.objects.create(
             conversation=conversation,
             sender=profile,

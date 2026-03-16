@@ -1,6 +1,7 @@
 """Views for the professionals app."""
 
 from decimal import Decimal, InvalidOperation
+from typing import cast
 
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
@@ -12,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.professionals.models import LicenseStatus, Metro, ProfessionalProfile, ServiceArea
+from apps.users.models import User
 
 from .serializers import (
     MetroSerializer,
@@ -93,7 +95,7 @@ class MyProfessionalProfileView(APIView):
         try:
             profile = ProfessionalProfile.objects.select_related("user").prefetch_related(
                 "service_areas__metro"
-            ).get(user=request.user)
+            ).get(user=cast(User, request.user))
         except ProfessionalProfile.DoesNotExist:
             return Response(
                 {"detail": "Professional profile not found."},
@@ -129,7 +131,7 @@ class MyProfessionalProfileView(APIView):
         try:
             profile = ProfessionalProfile.objects.select_related("user").prefetch_related(
                 "service_areas__metro"
-            ).get(user=request.user)
+            ).get(user=cast(User, request.user))
         except ProfessionalProfile.DoesNotExist:
             return Response(
                 {"detail": "Professional profile not found."},

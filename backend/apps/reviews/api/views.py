@@ -1,5 +1,7 @@
 """Views for the reviews app."""
 
+from typing import cast
+
 from django.db.models import QuerySet
 from rest_framework import generics, status
 from rest_framework.request import Request
@@ -8,6 +10,7 @@ from rest_framework.response import Response
 from apps.gigs.api.permissions import IsVerifiedProfessional
 from apps.gigs.models import Gig, GigStatus
 from apps.reviews.models import Review
+from apps.users.models import User
 
 from .serializers import ReviewCreateSerializer, ReviewSerializer
 
@@ -22,7 +25,8 @@ class ReviewCreateView(generics.CreateAPIView):
         serializer = ReviewCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        profile = request.user.professional_profile
+        user = cast(User, request.user)
+        profile = user.professional_profile
         gig_uuid = serializer.validated_data["gig_uuid"]
 
         try:
