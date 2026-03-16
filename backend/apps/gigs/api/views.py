@@ -1,6 +1,7 @@
 """Views for the gigs app."""
 
 from django.db.models import Q, QuerySet
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -72,6 +73,10 @@ class GigStatusTransitionView(APIView):
 
     permission_classes = [IsVerifiedProfessional]
 
+    @extend_schema(
+        request=GigStatusTransitionSerializer,
+        responses={200: GigSerializer},
+    )
     def post(self, request: Request, uuid: str) -> Response:
         profile = request.user.professional_profile
         try:

@@ -3,6 +3,7 @@
 from decimal import Decimal, InvalidOperation
 
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
@@ -85,6 +86,9 @@ class MyProfessionalProfileView(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        responses={200: MyProfessionalProfileSerializer},
+    )
     def get(self, request: Request) -> Response:
         try:
             profile = ProfessionalProfile.objects.select_related("user").prefetch_related(
@@ -98,6 +102,10 @@ class MyProfessionalProfileView(APIView):
         serializer = MyProfessionalProfileSerializer(profile)
         return Response(serializer.data)
 
+    @extend_schema(
+        request=ProfessionalProfileCreateSerializer,
+        responses={201: MyProfessionalProfileSerializer},
+    )
     def post(self, request: Request) -> Response:
         serializer = ProfessionalProfileCreateSerializer(
             data=request.data, context={"request": request}
@@ -113,6 +121,10 @@ class MyProfessionalProfileView(APIView):
         response_serializer = MyProfessionalProfileSerializer(profile)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
+    @extend_schema(
+        request=ProfessionalProfileCreateSerializer,
+        responses={200: MyProfessionalProfileSerializer},
+    )
     def patch(self, request: Request) -> Response:
         try:
             profile = ProfessionalProfile.objects.select_related("user").prefetch_related(

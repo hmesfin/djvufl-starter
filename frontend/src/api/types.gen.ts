@@ -4,12 +4,271 @@ export type ClientOptions = {
     baseURL: `${string}://${string}` | (string & {});
 };
 
+export type Conversation = {
+    readonly uuid: string;
+    participant_1: ProfessionalProfile;
+    participant_2: ProfessionalProfile;
+    readonly gig: string;
+    readonly last_message: {
+        [key: string]: unknown;
+    } | null;
+    readonly unread_count: number;
+    readonly modified: string;
+};
+
+export type ConversationCreate = {
+    participant_uuid: string;
+    gig_uuid?: string | null;
+};
+
+export type ConversationCreateRequest = {
+    participant_uuid: string;
+    gig_uuid?: string | null;
+};
+
 /**
  * Custom JWT serializer that uses email and checks email verification.
  */
 export type EmailTokenObtainPairRequest = {
     email: string;
     password: string;
+};
+
+/**
+ * Read serializer for gig list/detail.
+ */
+export type Gig = {
+    readonly uuid: string;
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    readonly agreed_price: string | null;
+    status: Status92cEnum;
+    gig_type?: GigTypeEnum;
+    posted_by: ProfessionalProfile;
+    assigned_to: ProfessionalProfile;
+    readonly created: string;
+    readonly modified: string;
+};
+
+/**
+ * Serializer for creating gigs.
+ */
+export type GigCreate = {
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Serializer for creating gigs.
+ */
+export type GigCreateRequest = {
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Read serializer for gig invitations.
+ */
+export type GigInvitation = {
+    readonly uuid: string;
+    invited_agent: ProfessionalProfile;
+    proposed_rate?: string | null;
+    message?: string;
+    status?: GigInvitationStatusEnum;
+    readonly created: string;
+};
+
+/**
+ * Serializer for creating gig invitations.
+ */
+export type GigInvitationCreate = {
+    invited_agent_uuid: string;
+    message?: string;
+};
+
+/**
+ * Serializer for creating gig invitations.
+ */
+export type GigInvitationCreateRequest = {
+    invited_agent_uuid: string;
+    message?: string;
+};
+
+/**
+ * Read serializer for gig invitations.
+ */
+export type GigInvitationRequest = {
+    proposed_rate?: string | null;
+    message?: string;
+    status?: GigInvitationStatusEnum;
+};
+
+/**
+ * * `pending` - Pending
+ * * `accepted` - Accepted
+ * * `declined` - Declined
+ * * `withdrawn` - Withdrawn
+ */
+export type GigInvitationStatusEnum = 'pending' | 'accepted' | 'declined' | 'withdrawn';
+
+/**
+ * Read serializer for gig list/detail.
+ */
+export type GigRequest = {
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Validates gig status transitions.
+ */
+export type GigStatusTransitionRequest = {
+    status: Status92cEnum;
+};
+
+/**
+ * * `showing` - Showing
+ * * `open_house` - Open House
+ * * `inspection_accompaniment` - Inspection Accompaniment
+ * * `other` - Other
+ */
+export type GigTypeEnum = 'showing' | 'open_house' | 'inspection_accompaniment' | 'other';
+
+/**
+ * * `pending_verification` - Pending Verification
+ * * `verified` - Verified
+ * * `rejected` - Rejected
+ * * `expired` - Expired
+ */
+export type LicenseStatusEnum = 'pending_verification' | 'verified' | 'rejected' | 'expired';
+
+export type Message = {
+    readonly uuid: string;
+    sender: ProfessionalProfile;
+    body: string;
+    readonly read_at: string | null;
+    readonly created: string;
+};
+
+export type MessageCreate = {
+    body: string;
+};
+
+export type MessageCreateRequest = {
+    body: string;
+};
+
+export type Metro = {
+    readonly uuid: string;
+    name: string;
+    state: string;
+};
+
+export type MetroRequest = {
+    name: string;
+    state: string;
+};
+
+/**
+ * Extended serializer that includes private fields for the profile owner.
+ */
+export type MyProfessionalProfile = {
+    readonly uuid: string;
+    readonly user_email: string;
+    readonly user_first_name: string;
+    readonly user_last_name: string;
+    readonly user_avatar: string;
+    license_status: LicenseStatusEnum;
+    readonly service_areas: Array<ServiceArea>;
+    readonly specializations: Array<SpecializationsEnum>;
+    readonly bio: string;
+    readonly average_rating: string | null;
+    readonly average_response_time: string | null;
+    readonly is_available: boolean;
+    readonly is_verified: boolean;
+    readonly license_number: string;
+    readonly license_expiry: string | null;
+    readonly verified_at: string | null;
+    readonly rejection_reason: string;
 };
 
 /**
@@ -28,11 +287,60 @@ export type OtpVerificationRequest = {
     code: string;
 };
 
-export type PaginatedProjectList = {
+export type PaginatedConversationList = {
     count: number;
     next?: string | null;
     previous?: string | null;
-    results: Array<Project>;
+    results: Array<Conversation>;
+};
+
+export type PaginatedGigInvitationList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<GigInvitation>;
+};
+
+export type PaginatedGigList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<Gig>;
+};
+
+export type PaginatedMessageList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<Message>;
+};
+
+export type PaginatedMetroList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<Metro>;
+};
+
+export type PaginatedProfessionalProfileList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<ProfessionalProfile>;
+};
+
+export type PaginatedReviewList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<Review>;
+};
+
+export type PaginatedServiceAreaList = {
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<ServiceArea>;
 };
 
 export type PaginatedUserList = {
@@ -108,15 +416,56 @@ export type PasswordResetRequestRequest = {
     email: string;
 };
 
-export type PatchedProjectRequest = {
-    name?: string;
-    description?: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
+/**
+ * Read serializer for gig invitations.
+ */
+export type PatchedGigInvitationRequest = {
+    proposed_rate?: string | null;
+    message?: string;
+    status?: GigInvitationStatusEnum;
 };
 
+/**
+ * Read serializer for gig list/detail.
+ */
+export type PatchedGigRequest = {
+    title?: string;
+    description?: string;
+    location_address?: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date?: string;
+    scheduled_time?: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Serializer for creating/updating own professional profile.
+ */
+export type PatchedProfessionalProfileCreateRequest = {
+    license_number?: string;
+    bio?: string;
+    specializations?: Array<SpecializationsEnum>;
+    is_available?: boolean;
+};
+
+/**
+ * Serializer for user model.
+ */
 export type PatchedUserRequest = {
     first_name?: string;
     last_name?: string;
@@ -127,66 +476,42 @@ export type PatchedUserRequest = {
     avatar?: Blob | File | null;
 };
 
-/**
- * * `1` - Low
- * * `2` - Medium
- * * `3` - High
- * * `4` - Critical
- */
-export type PriorityEnum = 1 | 2 | 3 | 4;
+export type PaymentDetailResponse = {
+    id: string;
+    gig_uuid: string;
+    stripe_payment_intent_id: string;
+    amount: string;
+    platform_fee: string;
+    status: string;
+};
 
-export type Project = {
+/**
+ * Read-only serializer for viewing professional profiles (public).
+ */
+export type ProfessionalProfile = {
     readonly uuid: string;
-    name: string;
-    description?: string;
-    readonly owner: string;
-    readonly owner_email: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
-    readonly is_overdue: boolean;
-    readonly created_at: string;
-    readonly updated_at: string;
+    readonly user_email: string;
+    readonly user_first_name: string;
+    readonly user_last_name: string;
+    readonly user_avatar: string;
+    license_status: LicenseStatusEnum;
+    readonly service_areas: Array<ServiceArea>;
+    readonly specializations: Array<SpecializationsEnum>;
+    readonly bio: string;
+    readonly average_rating: string | null;
+    readonly average_response_time: string | null;
+    readonly is_available: boolean;
+    readonly is_verified: boolean;
 };
 
 /**
- * Separate serializer for creation to handle owner assignment
+ * Serializer for creating/updating own professional profile.
  */
-export type ProjectCreate = {
-    readonly uuid: string;
-    name: string;
-    description?: string;
-    readonly owner: string;
-    readonly owner_email: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
-    readonly is_overdue: boolean;
-    readonly created_at: string;
-    readonly updated_at: string;
-};
-
-/**
- * Separate serializer for creation to handle owner assignment
- */
-export type ProjectCreateRequest = {
-    name: string;
-    description?: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
-};
-
-export type ProjectRequest = {
-    name: string;
-    description?: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
+export type ProfessionalProfileCreateRequest = {
+    license_number: string;
+    bio?: string;
+    specializations?: Array<SpecializationsEnum>;
+    is_available?: boolean;
 };
 
 /**
@@ -203,13 +528,71 @@ export type ResendOtpRequest = {
     email: string;
 };
 
+export type Review = {
+    readonly uuid: string;
+    reviewer: ProfessionalProfile;
+    readonly rating: number;
+    readonly comment: string;
+    readonly is_from_poster: boolean;
+    readonly created: string;
+};
+
+export type ReviewCreate = {
+    gig_uuid: string;
+    rating: number;
+    comment?: string;
+};
+
+export type ReviewCreateRequest = {
+    gig_uuid: string;
+    rating: number;
+    comment?: string;
+};
+
+export type ServiceArea = {
+    readonly uuid: string;
+    name: string;
+    zip_codes?: Array<string>;
+    metro: Metro;
+};
+
+export type ServiceAreaRequest = {
+    name: string;
+    zip_codes?: Array<string>;
+};
+
+/**
+ * * `residential` - Residential
+ * * `commercial` - Commercial
+ * * `buyers_agent` - Buyer's Agent
+ * * `listing_agent` - Listing Agent
+ */
+export type SpecializationsEnum = 'residential' | 'commercial' | 'buyers_agent' | 'listing_agent';
+
 /**
  * * `draft` - Draft
- * * `active` - Active
+ * * `posted` - Posted
+ * * `invited` - Invited
+ * * `negotiating` - Negotiating
+ * * `accepted` - Accepted
+ * * `in_progress` - In Progress
  * * `completed` - Completed
- * * `archived` - Archived
+ * * `cancelled` - Cancelled
+ * * `disputed` - Disputed
  */
-export type StatusEnum = 'draft' | 'active' | 'completed' | 'archived';
+export type Status92cEnum = 'draft' | 'posted' | 'invited' | 'negotiating' | 'accepted' | 'in_progress' | 'completed' | 'cancelled' | 'disputed';
+
+export type StripeConnectOnboardResponse = {
+    url: string;
+};
+
+export type StripeWebhookRequestRequest = {
+    payload: string;
+};
+
+export type StripeWebhookResponse = {
+    status: string;
+};
 
 export type TokenObtainPair = {
     readonly access: string;
@@ -225,6 +608,9 @@ export type TokenRefreshRequest = {
     refresh: string;
 };
 
+/**
+ * Serializer for user model.
+ */
 export type User = {
     first_name: string;
     last_name: string;
@@ -260,6 +646,9 @@ export type UserRegistrationRequest = {
     last_name: string;
 };
 
+/**
+ * Serializer for user model.
+ */
 export type UserRequest = {
     first_name: string;
     last_name: string;
@@ -268,6 +657,92 @@ export type UserRequest = {
      */
     email: string;
     avatar?: Blob | File | null;
+};
+
+export type ConversationWritable = {
+    [key: string]: unknown;
+};
+
+/**
+ * Read serializer for gig list/detail.
+ */
+export type GigWritable = {
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Serializer for creating gigs.
+ */
+export type GigCreateRequestWritable = {
+    title: string;
+    description?: string;
+    location_address: string;
+    /**
+     * Location latitude
+     */
+    location_lat?: string | null;
+    /**
+     * Location longitude
+     */
+    location_lng?: string | null;
+    service_area_uuid?: string | null;
+    scheduled_date: string;
+    scheduled_time: string;
+    /**
+     * Budget range minimum
+     */
+    budget_range_min?: string | null;
+    /**
+     * Budget range maximum
+     */
+    budget_range_max?: string | null;
+    gig_type?: GigTypeEnum;
+};
+
+/**
+ * Read serializer for gig invitations.
+ */
+export type GigInvitationWritable = {
+    proposed_rate?: string | null;
+    message?: string;
+    status?: GigInvitationStatusEnum;
+};
+
+export type MessageWritable = {
+    body: string;
+};
+
+export type MetroWritable = {
+    name: string;
+    state: string;
+};
+
+/**
+ * Extended serializer that includes private fields for the profile owner.
+ */
+export type MyProfessionalProfileWritable = {
+    [key: string]: unknown;
 };
 
 /**
@@ -287,31 +762,51 @@ export type PasswordResetOtpConfirmRequestWritable = {
     password: string;
 };
 
-export type ProjectWritable = {
-    name: string;
-    description?: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
+/**
+ * Serializer for creating/updating own professional profile.
+ */
+export type PatchedProfessionalProfileCreateRequestWritable = {
+    license_number?: string;
+    bio?: string;
+    specializations?: Array<SpecializationsEnum>;
+    is_available?: boolean;
+    service_area_uuids?: Array<string>;
 };
 
 /**
- * Separate serializer for creation to handle owner assignment
+ * Read-only serializer for viewing professional profiles (public).
  */
-export type ProjectCreateWritable = {
+export type ProfessionalProfileWritable = {
+    [key: string]: unknown;
+};
+
+/**
+ * Serializer for creating/updating own professional profile.
+ */
+export type ProfessionalProfileCreateRequestWritable = {
+    license_number: string;
+    bio?: string;
+    specializations?: Array<SpecializationsEnum>;
+    is_available?: boolean;
+    service_area_uuids?: Array<string>;
+};
+
+export type ReviewWritable = {
+    [key: string]: unknown;
+};
+
+export type ServiceAreaWritable = {
     name: string;
-    description?: string;
-    status?: StatusEnum;
-    priority?: PriorityEnum;
-    start_date?: string | null;
-    due_date?: string | null;
+    zip_codes?: Array<string>;
 };
 
 export type TokenRefreshWritable = {
     refresh: string;
 };
 
+/**
+ * Serializer for user model.
+ */
 export type UserWritable = {
     first_name: string;
     last_name: string;
@@ -452,10 +947,310 @@ export type ApiAuthVerifyOtpCreateResponses = {
 
 export type ApiAuthVerifyOtpCreateResponse = ApiAuthVerifyOtpCreateResponses[keyof ApiAuthVerifyOtpCreateResponses];
 
-export type ApiProjectsListData = {
+export type ApiConversationsListData = {
     body?: never;
     path?: never;
     query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/conversations/';
+};
+
+export type ApiConversationsListResponses = {
+    200: PaginatedConversationList;
+};
+
+export type ApiConversationsListResponse = ApiConversationsListResponses[keyof ApiConversationsListResponses];
+
+export type ApiConversationsCreateData = {
+    body: ConversationCreateRequest;
+    path?: never;
+    query?: never;
+    url: '/api/conversations/';
+};
+
+export type ApiConversationsCreateResponses = {
+    201: ConversationCreate;
+};
+
+export type ApiConversationsCreateResponse = ApiConversationsCreateResponses[keyof ApiConversationsCreateResponses];
+
+export type ApiConversationsMessagesListData = {
+    body?: never;
+    path: {
+        conversation_uuid: string;
+    };
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/conversations/{conversation_uuid}/messages/';
+};
+
+export type ApiConversationsMessagesListResponses = {
+    200: PaginatedMessageList;
+};
+
+export type ApiConversationsMessagesListResponse = ApiConversationsMessagesListResponses[keyof ApiConversationsMessagesListResponses];
+
+export type ApiConversationsMessagesCreateData = {
+    body: MessageCreateRequest;
+    path: {
+        conversation_uuid: string;
+    };
+    query?: never;
+    url: '/api/conversations/{conversation_uuid}/messages/';
+};
+
+export type ApiConversationsMessagesCreateResponses = {
+    201: MessageCreate;
+};
+
+export type ApiConversationsMessagesCreateResponse = ApiConversationsMessagesCreateResponses[keyof ApiConversationsMessagesCreateResponses];
+
+export type ApiGigsListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/gigs/';
+};
+
+export type ApiGigsListResponses = {
+    200: PaginatedGigList;
+};
+
+export type ApiGigsListResponse = ApiGigsListResponses[keyof ApiGigsListResponses];
+
+export type ApiGigsCreateData = {
+    body: GigCreateRequestWritable;
+    path?: never;
+    query?: never;
+    url: '/api/gigs/';
+};
+
+export type ApiGigsCreateResponses = {
+    201: GigCreate;
+};
+
+export type ApiGigsCreateResponse = ApiGigsCreateResponses[keyof ApiGigsCreateResponses];
+
+export type ApiGigsInvitationsListData = {
+    body?: never;
+    path: {
+        gig_uuid: string;
+    };
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/gigs/{gig_uuid}/invitations/';
+};
+
+export type ApiGigsInvitationsListResponses = {
+    200: PaginatedGigInvitationList;
+};
+
+export type ApiGigsInvitationsListResponse = ApiGigsInvitationsListResponses[keyof ApiGigsInvitationsListResponses];
+
+export type ApiGigsInvitationsCreateData = {
+    body: GigInvitationCreateRequest;
+    path: {
+        gig_uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{gig_uuid}/invitations/';
+};
+
+export type ApiGigsInvitationsCreateResponses = {
+    201: GigInvitationCreate;
+};
+
+export type ApiGigsInvitationsCreateResponse = ApiGigsInvitationsCreateResponses[keyof ApiGigsInvitationsCreateResponses];
+
+export type ApiGigsInvitationsRetrieveData = {
+    body?: never;
+    path: {
+        gig_uuid: string;
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/';
+};
+
+export type ApiGigsInvitationsRetrieveResponses = {
+    200: GigInvitation;
+};
+
+export type ApiGigsInvitationsRetrieveResponse = ApiGigsInvitationsRetrieveResponses[keyof ApiGigsInvitationsRetrieveResponses];
+
+export type ApiGigsInvitationsPartialUpdateData = {
+    body?: PatchedGigInvitationRequest;
+    path: {
+        gig_uuid: string;
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/';
+};
+
+export type ApiGigsInvitationsPartialUpdateResponses = {
+    200: GigInvitation;
+};
+
+export type ApiGigsInvitationsPartialUpdateResponse = ApiGigsInvitationsPartialUpdateResponses[keyof ApiGigsInvitationsPartialUpdateResponses];
+
+export type ApiGigsInvitationsUpdateData = {
+    body?: GigInvitationRequest;
+    path: {
+        gig_uuid: string;
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{gig_uuid}/invitations/{uuid}/';
+};
+
+export type ApiGigsInvitationsUpdateResponses = {
+    200: GigInvitation;
+};
+
+export type ApiGigsInvitationsUpdateResponse = ApiGigsInvitationsUpdateResponses[keyof ApiGigsInvitationsUpdateResponses];
+
+export type ApiGigsRetrieveData = {
+    body?: never;
+    path: {
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{uuid}/';
+};
+
+export type ApiGigsRetrieveResponses = {
+    200: Gig;
+};
+
+export type ApiGigsRetrieveResponse = ApiGigsRetrieveResponses[keyof ApiGigsRetrieveResponses];
+
+export type ApiGigsPartialUpdateData = {
+    body?: PatchedGigRequest;
+    path: {
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{uuid}/';
+};
+
+export type ApiGigsPartialUpdateResponses = {
+    200: Gig;
+};
+
+export type ApiGigsPartialUpdateResponse = ApiGigsPartialUpdateResponses[keyof ApiGigsPartialUpdateResponses];
+
+export type ApiGigsUpdateData = {
+    body: GigRequest;
+    path: {
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{uuid}/';
+};
+
+export type ApiGigsUpdateResponses = {
+    200: Gig;
+};
+
+export type ApiGigsUpdateResponse = ApiGigsUpdateResponses[keyof ApiGigsUpdateResponses];
+
+export type ApiGigsTransitionCreateData = {
+    body: GigStatusTransitionRequest;
+    path: {
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/gigs/{uuid}/transition/';
+};
+
+export type ApiGigsTransitionCreateResponses = {
+    200: Gig;
+};
+
+export type ApiGigsTransitionCreateResponse = ApiGigsTransitionCreateResponses[keyof ApiGigsTransitionCreateResponses];
+
+export type ApiMetrosListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/metros/';
+};
+
+export type ApiMetrosListResponses = {
+    200: PaginatedMetroList;
+};
+
+export type ApiMetrosListResponse = ApiMetrosListResponses[keyof ApiMetrosListResponses];
+
+export type ApiPaymentsRetrieveData = {
+    body?: never;
+    path: {
+        gig_uuid: string;
+    };
+    query?: never;
+    url: '/api/payments/{gig_uuid}/';
+};
+
+export type ApiPaymentsRetrieveResponses = {
+    200: PaymentDetailResponse;
+};
+
+export type ApiPaymentsRetrieveResponse = ApiPaymentsRetrieveResponses[keyof ApiPaymentsRetrieveResponses];
+
+export type ApiPaymentsStripeConnectCreateData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/payments/stripe-connect/';
+};
+
+export type ApiPaymentsStripeConnectCreateResponses = {
+    200: StripeConnectOnboardResponse;
+};
+
+export type ApiPaymentsStripeConnectCreateResponse = ApiPaymentsStripeConnectCreateResponses[keyof ApiPaymentsStripeConnectCreateResponses];
+
+export type ApiPaymentsWebhookCreateData = {
+    body: StripeWebhookRequestRequest;
+    path?: never;
+    query?: never;
+    url: '/api/payments/webhook/';
+};
+
+export type ApiPaymentsWebhookCreateResponses = {
+    200: StripeWebhookResponse;
+};
+
+export type ApiPaymentsWebhookCreateResponse = ApiPaymentsWebhookCreateResponses[keyof ApiPaymentsWebhookCreateResponses];
+
+export type ApiProfessionalsListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        is_available?: boolean;
         /**
          * Which field to use when ordering the results.
          */
@@ -468,95 +1263,120 @@ export type ApiProjectsListData = {
          * A search term.
          */
         search?: string;
-        /**
-         * Filter by project status
-         */
-        status?: 'active' | 'archived' | 'completed' | 'draft';
     };
-    url: '/api/projects/';
+    url: '/api/professionals/';
 };
 
-export type ApiProjectsListResponses = {
-    200: PaginatedProjectList;
+export type ApiProfessionalsListResponses = {
+    200: PaginatedProfessionalProfileList;
 };
 
-export type ApiProjectsListResponse = ApiProjectsListResponses[keyof ApiProjectsListResponses];
+export type ApiProfessionalsListResponse = ApiProfessionalsListResponses[keyof ApiProfessionalsListResponses];
 
-export type ApiProjectsCreateData = {
-    body: ProjectCreateRequest;
+export type ApiProfessionalsRetrieveData = {
+    body?: never;
+    path: {
+        uuid: string;
+    };
+    query?: never;
+    url: '/api/professionals/{uuid}/';
+};
+
+export type ApiProfessionalsRetrieveResponses = {
+    200: ProfessionalProfile;
+};
+
+export type ApiProfessionalsRetrieveResponse = ApiProfessionalsRetrieveResponses[keyof ApiProfessionalsRetrieveResponses];
+
+export type ApiProfessionalsReviewsListData = {
+    body?: never;
+    path: {
+        uuid: string;
+    };
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
+    };
+    url: '/api/professionals/{uuid}/reviews/';
+};
+
+export type ApiProfessionalsReviewsListResponses = {
+    200: PaginatedReviewList;
+};
+
+export type ApiProfessionalsReviewsListResponse = ApiProfessionalsReviewsListResponses[keyof ApiProfessionalsReviewsListResponses];
+
+export type ApiProfessionalsMeRetrieveData = {
+    body?: never;
     path?: never;
     query?: never;
-    url: '/api/projects/';
+    url: '/api/professionals/me/';
 };
 
-export type ApiProjectsCreateResponses = {
-    201: ProjectCreate;
+export type ApiProfessionalsMeRetrieveResponses = {
+    200: MyProfessionalProfile;
 };
 
-export type ApiProjectsCreateResponse = ApiProjectsCreateResponses[keyof ApiProjectsCreateResponses];
+export type ApiProfessionalsMeRetrieveResponse = ApiProfessionalsMeRetrieveResponses[keyof ApiProfessionalsMeRetrieveResponses];
 
-export type ApiProjectsDestroyData = {
+export type ApiProfessionalsMePartialUpdateData = {
+    body?: PatchedProfessionalProfileCreateRequestWritable;
+    path?: never;
+    query?: never;
+    url: '/api/professionals/me/';
+};
+
+export type ApiProfessionalsMePartialUpdateResponses = {
+    200: MyProfessionalProfile;
+};
+
+export type ApiProfessionalsMePartialUpdateResponse = ApiProfessionalsMePartialUpdateResponses[keyof ApiProfessionalsMePartialUpdateResponses];
+
+export type ApiProfessionalsMeCreateData = {
+    body: ProfessionalProfileCreateRequestWritable;
+    path?: never;
+    query?: never;
+    url: '/api/professionals/me/';
+};
+
+export type ApiProfessionalsMeCreateResponses = {
+    201: MyProfessionalProfile;
+};
+
+export type ApiProfessionalsMeCreateResponse = ApiProfessionalsMeCreateResponses[keyof ApiProfessionalsMeCreateResponses];
+
+export type ApiReviewsCreateData = {
+    body: ReviewCreateRequest;
+    path?: never;
+    query?: never;
+    url: '/api/reviews/';
+};
+
+export type ApiReviewsCreateResponses = {
+    201: ReviewCreate;
+};
+
+export type ApiReviewsCreateResponse = ApiReviewsCreateResponses[keyof ApiReviewsCreateResponses];
+
+export type ApiServiceAreasListData = {
     body?: never;
-    path: {
-        uuid: string;
+    path?: never;
+    query?: {
+        /**
+         * A page number within the paginated result set.
+         */
+        page?: number;
     };
-    query?: never;
-    url: '/api/projects/{uuid}/';
+    url: '/api/service-areas/';
 };
 
-export type ApiProjectsDestroyResponses = {
-    /**
-     * No response body
-     */
-    204: void;
+export type ApiServiceAreasListResponses = {
+    200: PaginatedServiceAreaList;
 };
 
-export type ApiProjectsDestroyResponse = ApiProjectsDestroyResponses[keyof ApiProjectsDestroyResponses];
-
-export type ApiProjectsRetrieveData = {
-    body?: never;
-    path: {
-        uuid: string;
-    };
-    query?: never;
-    url: '/api/projects/{uuid}/';
-};
-
-export type ApiProjectsRetrieveResponses = {
-    200: Project;
-};
-
-export type ApiProjectsRetrieveResponse = ApiProjectsRetrieveResponses[keyof ApiProjectsRetrieveResponses];
-
-export type ApiProjectsPartialUpdateData = {
-    body?: PatchedProjectRequest;
-    path: {
-        uuid: string;
-    };
-    query?: never;
-    url: '/api/projects/{uuid}/';
-};
-
-export type ApiProjectsPartialUpdateResponses = {
-    200: Project;
-};
-
-export type ApiProjectsPartialUpdateResponse = ApiProjectsPartialUpdateResponses[keyof ApiProjectsPartialUpdateResponses];
-
-export type ApiProjectsUpdateData = {
-    body: ProjectRequest;
-    path: {
-        uuid: string;
-    };
-    query?: never;
-    url: '/api/projects/{uuid}/';
-};
-
-export type ApiProjectsUpdateResponses = {
-    200: Project;
-};
-
-export type ApiProjectsUpdateResponse = ApiProjectsUpdateResponses[keyof ApiProjectsUpdateResponses];
+export type ApiServiceAreasListResponse = ApiServiceAreasListResponses[keyof ApiServiceAreasListResponses];
 
 export type ApiUsersListData = {
     body?: never;
