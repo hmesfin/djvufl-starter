@@ -88,6 +88,7 @@ LOCAL_APPS = [
     "apps.users",
     "apps.professionals",
     "apps.gigs",
+    "apps.messaging",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

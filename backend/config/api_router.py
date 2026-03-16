@@ -10,6 +10,10 @@ from apps.gigs.api.views import (
     GigListCreateView,
     GigStatusTransitionView,
 )
+from apps.messaging.api.views import (
+    ConversationListCreateView,
+    MessageListCreateView,
+)
 from apps.professionals.api.views import MetroListView
 from apps.professionals.api.views import MyProfessionalProfileView
 from apps.professionals.api.views import ProfessionalProfileDetailView
@@ -108,5 +112,16 @@ urlpatterns = [
         "gigs/<uuid:gig_uuid>/invitations/<uuid:uuid>/",
         GigInvitationDetailView.as_view(),
         name="gig-invitation-detail",
+    ),
+    # Messaging endpoints
+    path(
+        "conversations/",
+        ConversationListCreateView.as_view(),
+        name="conversation-list",
+    ),
+    path(
+        "conversations/<uuid:conversation_uuid>/messages/",
+        MessageListCreateView.as_view(),
+        name="message-list",
     ),
 ]
