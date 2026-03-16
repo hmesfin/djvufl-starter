@@ -14,6 +14,10 @@ from apps.messaging.api.views import (
     ConversationListCreateView,
     MessageListCreateView,
 )
+from apps.reviews.api.views import (
+    ProfessionalReviewListView,
+    ReviewCreateView,
+)
 from apps.professionals.api.views import MetroListView
 from apps.professionals.api.views import MyProfessionalProfileView
 from apps.professionals.api.views import ProfessionalProfileDetailView
@@ -123,5 +127,12 @@ urlpatterns = [
         "conversations/<uuid:conversation_uuid>/messages/",
         MessageListCreateView.as_view(),
         name="message-list",
+    ),
+    # Review endpoints
+    path("reviews/", ReviewCreateView.as_view(), name="review-create"),
+    path(
+        "professionals/<uuid:uuid>/reviews/",
+        ProfessionalReviewListView.as_view(),
+        name="professional-reviews",
     ),
 ]
