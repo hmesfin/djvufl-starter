@@ -3,6 +3,13 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
+from apps.gigs.api.views import (
+    GigDetailView,
+    GigInvitationDetailView,
+    GigInvitationListCreateView,
+    GigListCreateView,
+    GigStatusTransitionView,
+)
 from apps.professionals.api.views import MetroListView
 from apps.professionals.api.views import MyProfessionalProfileView
 from apps.professionals.api.views import ProfessionalProfileDetailView
@@ -84,4 +91,22 @@ urlpatterns = [
     # Service areas and metros
     path("service-areas/", ServiceAreaListView.as_view(), name="servicearea-list"),
     path("metros/", MetroListView.as_view(), name="metro-list"),
+    # Gig endpoints
+    path("gigs/", GigListCreateView.as_view(), name="gig-list"),
+    path("gigs/<uuid:uuid>/", GigDetailView.as_view(), name="gig-detail"),
+    path(
+        "gigs/<uuid:uuid>/transition/",
+        GigStatusTransitionView.as_view(),
+        name="gig-transition",
+    ),
+    path(
+        "gigs/<uuid:gig_uuid>/invitations/",
+        GigInvitationListCreateView.as_view(),
+        name="gig-invitation-list",
+    ),
+    path(
+        "gigs/<uuid:gig_uuid>/invitations/<uuid:uuid>/",
+        GigInvitationDetailView.as_view(),
+        name="gig-invitation-detail",
+    ),
 ]
