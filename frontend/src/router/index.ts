@@ -87,6 +87,22 @@ const router = createRouter({
           component: () => import('@/views/professionals/AgentProfileView.vue'),
           props: true,
         },
+        {
+          path: 'gigs',
+          name: 'gig-list',
+          component: () => import('@/views/gigs/GigListView.vue'),
+        },
+        {
+          path: 'gigs/create',
+          name: 'gig-create',
+          component: () => import('@/views/gigs/GigCreateView.vue'),
+        },
+        {
+          path: 'gigs/:uuid',
+          name: 'gig-detail',
+          component: () => import('@/views/gigs/GigDetailView.vue'),
+          props: true,
+        },
       ],
     },
   ],
