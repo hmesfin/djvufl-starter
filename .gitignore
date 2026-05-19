@@ -349,3 +349,6 @@ quality-config.json
 # ODS system directory - contains local developer templates and infrastructure
 .claude/
 compose/production/postgres/maintenance/_sourced/constants.sh
+
+# Git worktrees (isolated feature branches)
+.worktrees/
