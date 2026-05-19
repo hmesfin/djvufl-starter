@@ -135,7 +135,7 @@ validateStatus: (status) => status >= 200 && status < 300
 
 - **ARCHITECTURE.md** - Detailed structure, patterns, component library, validation
 - **DEV_WORKFLOW.md** - All commands, workflows, troubleshooting (database, testing, code quality)
-- **EMAIL_SETUP.md** - Email configuration (Mailpit, SendGrid, templates, Celery tasks)
+- **EMAIL_SETUP.md** - Email configuration (Mailpit, AWS SES, templates, Celery tasks)
 - **DEBUG_DOGMA.md** - Hard-won debugging lessons (when "chasing your tails")
 - **GREEN_CICD.md** - Keeping CI/CD green: testing workflows, failure patterns, best practices
 
@@ -243,7 +243,7 @@ docker compose logs -f django  # follow in real-time
 
 2. **Email Templates**: Django templates in `backend/apps/templates/email/`
    - Used for transactional emails (password reset, OTP verification, etc.)
-   - Sent via django-anymail (SendGrid) or Mailpit (local)
+   - Sent via django-anymail (AWS SES) or Mailpit (local)
    - See EMAIL_SETUP.md for complete configuration
 
 3. **Authentication**: API-only (no session-based auth, no django-allauth)
@@ -284,7 +284,7 @@ You now know:
 
 - **ARCHITECTURE.md** - Structure, patterns, components
 - **DEV_WORKFLOW.md** - Commands, workflows, troubleshooting
-- **EMAIL_SETUP.md** - Email configuration (Mailpit, SendGrid)
+- **EMAIL_SETUP.md** - Email configuration (Mailpit, AWS SES)
 - **DEBUG_DOGMA.md** - Debugging patterns and lessons
 - **GREEN_CICD.md** - Keeping CI/CD green: testing workflows, pre-push checklists, failure patterns
 

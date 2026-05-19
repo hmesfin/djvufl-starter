@@ -7,7 +7,7 @@ This document covers email configuration for both local development and producti
 **Email backend**: Django's email system with Celery for async delivery
 
 **Local Development**: Mailpit (catches all emails, no external delivery)
-**Production**: SendGrid via django-anymail (actual email delivery)
+**Production**: AWS SES via django-anymail (actual email delivery)
 
 ## Local Development (Mailpit)
 
@@ -73,58 +73,88 @@ Mailpit captures emails sent by:
 - Search emails
 - API access (<http://localhost:8025/api/messages>)
 
-## Production (SendGrid)
+## Production (AWS SES)
 
-SendGrid is used for actual email delivery in production via django-anymail.
+AWS SES (Simple Email Service) is used for actual email delivery in production via django-anymail.
+
+The shared AWS SES infrastructure (verified domains, IAM `ses-sender` user, SNS bounce/complaint pipeline, configuration set) lives in `services/aws/`. Apps consume it; they don't reproduce it. If `services/aws/` doesn't yet exist on your machine, see that folder's README for the foundation setup.
 
 ### Configuration
 
-**Backend**: `anymail.backends.sendgrid.EmailBackend`
+**Backend**: `anymail.backends.amazon_ses.EmailBackend`
 
 **Environment variables** (production `.env`):
 
 ```env
-EMAIL_BACKEND=anymail.backends.sendgrid.EmailBackend
-SENDGRID_API_KEY=your-sendgrid-api-key-here
 DJANGO_DEFAULT_FROM_EMAIL=noreply@yourdomain.com
 DJANGO_SERVER_EMAIL=server@yourdomain.com
+
+# SES IAM credentials (the `ses-sender` IAM user in services/aws/)
+DJANGO_AWS_SES_ACCESS_KEY_ID=AKIA...
+DJANGO_AWS_SES_SECRET_ACCESS_KEY=...
+DJANGO_AWS_SES_REGION_NAME=us-east-1
+DJANGO_AWS_SES_CONFIGURATION_SET=default-feedback
 ```
 
-### SendGrid Setup
+Note: these are NOT the same credentials as `DJANGO_AWS_ACCESS_KEY_ID` (which is the S3-scoped IAM user for static file storage). Two separate IAM users, two separate scopes.
 
-1. **Create SendGrid account**: <https://sendgrid.com/>
+### AWS SES Setup
 
-2. **Create API key**:
-   - Go to Settings → API Keys
-   - Create API key with "Mail Send" permissions
-   - Copy key (only shown once!)
+1. **Verify your sending domain in SES** (one-time, per domain):
 
-3. **Verify sender domain**:
-   - Go to Settings → Sender Authentication
-   - Authenticate your domain (adds DNS records)
-   - Or create single sender (quick testing)
-
-4. **Add API key to environment**:
-
-   ```env
-   SENDGRID_API_KEY=SG.xxxxxxxxxxxxxxxxxxxxx
+   ```bash
+   cd services/aws
+   ./scripts/10-verify-domain.sh yourdomain.com
+   # Add the printed DNS records at Cloudflare (proxy OFF)
+   ./scripts/20-check-verification.sh yourdomain.com
    ```
 
-5. **Set from address**:
+   See `services/aws/docs/ADDING-A-DOMAIN.md` for the repeatable per-domain process.
+
+2. **Get IAM credentials for sending**:
+
+   If `services/aws/creds/ses-sender.json` exists on the operator machine, the credentials are already minted. Copy `access_key_id` and `secret_access_key` from that file into your secret store.
+
+   If not, run:
+
+   ```bash
+   ./scripts/30-create-iam-sender.sh
+   ```
+
+3. **Set credentials in your deployment environment**:
+
+   ```env
+   DJANGO_AWS_SES_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXX
+   DJANGO_AWS_SES_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+   Backed by Cloudflare Pages env vars / Hetzner `.env.production` / GitHub Actions secrets, etc. Never commit to git.
+
+4. **Set the from address** to an address on a verified domain:
 
    ```env
    DJANGO_DEFAULT_FROM_EMAIL=noreply@yourdomain.com
    ```
+
+   The SES IAM policy enforces `ses:FromAddress` matching `*@<verified-domain>` — sending as anything else will be rejected with `AccessDenied`.
 
 ### Django Settings
 
 In `config/settings/production.py`:
 
 ```python
-# Email (django-anymail with SendGrid)
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+# Email (django-anymail with AWS SES)
+EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 ANYMAIL = {
-    "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "region_name": env("DJANGO_AWS_SES_REGION_NAME", default="us-east-1"),
+        "aws_access_key_id": env("DJANGO_AWS_SES_ACCESS_KEY_ID"),
+        "aws_secret_access_key": env("DJANGO_AWS_SES_SECRET_ACCESS_KEY"),
+    },
+    "AMAZON_SES_CONFIGURATION_SET_NAME": env(
+        "DJANGO_AWS_SES_CONFIGURATION_SET",
+        default="default-feedback",
+    ),
 }
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL",
@@ -132,6 +162,8 @@ DEFAULT_FROM_EMAIL = env(
 )
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
 ```
+
+The `AMAZON_SES_CONFIGURATION_SET_NAME` is critical — it routes BOUNCE/COMPLAINT/DELIVERY_DELAY/REJECT events to the SNS topic configured in the SES foundation, so list hygiene and reputation issues surface immediately. Omitting it means SES still sends mail, but bounces will be invisible.
 
 ## Email Templates
 
@@ -376,28 +408,26 @@ docker compose run --rm django pytest apps/users/tests/test_tasks.py -v
 curl http://localhost:8025/api/messages
 ```
 
-### Production (SendGrid)
+### Production (AWS SES)
 
-**SendGrid Dashboard**: <https://app.sendgrid.com/>
+**SES Console**: <https://console.aws.amazon.com/ses/home?region=us-east-1>
 
-**Email Activity Feed**:
+**Where to look for delivery issues**:
 
-- Shows all sent emails
-- Delivery status (delivered, bounced, opened, clicked)
-- Errors and reasons
+- **Reputation Dashboard** (`SES Console → Reputation Metrics`) — bounce rate, complaint rate, account-level reputation. SES auto-pauses sending if bounce > 5% or complaint > 0.1%.
+- **SNS topic `ses-feedback`** — every BOUNCE/COMPLAINT/DELIVERY_DELAY/REJECT event publishes here. Operator subscription emails these in real time.
+- **CloudWatch metrics** — `Send`, `Bounce`, `Complaint`, `Delivery`, `Reject` counters under namespace `AWS/SES`.
 
-**Webhook integration** (optional):
+**Webhook integration** (optional, recommended once apps stabilize):
 
-```python
-# In config/settings/production.py
-ANYMAIL = {
-    "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
-    "WEBHOOK_SECRET": env("ANYMAIL_WEBHOOK_SECRET"),
-}
+Anymail can receive bounce/complaint webhooks from SES (via SNS HTTP/HTTPS subscription) and automatically suppress further sends to dead addresses. To enable:
 
-# Add webhook URL in SendGrid:
-# https://yourdomain.com/anymail/sendgrid/tracking/
-```
+1. Set `ANYMAIL_WEBHOOK_SECRET` in production env.
+2. Add the Anymail webhook URL in your app: `path("anymail/", include("anymail.urls"))`.
+3. Subscribe the SES `ses-feedback` SNS topic to `https://<your-app>/anymail/amazon_ses/tracking/`.
+4. Handle `anymail.signals.tracking` in your code to suppress bounced addresses.
+
+Until that's wired, the SNS email subscription to the operator (configured in `services/aws/scripts/40-setup-bounce-sns.sh`) is the bounce signal.
 
 ## Troubleshooting
 
@@ -442,29 +472,41 @@ send_mail('Test', 'Test message', 'noreply@example.com', ['test@example.com'])
 
 ### Emails Not Being Sent (Production)
 
-**Check SendGrid API key**:
+**Check SES IAM credentials are set**:
 
 ```bash
-# Ensure SENDGRID_API_KEY is set correctly
-echo $SENDGRID_API_KEY
+# Inside the production container — should print AKIA...
+docker compose exec django env | grep DJANGO_AWS_SES_
 ```
 
-**Check SendGrid dashboard**:
+**Check the From: address is on a verified domain**:
 
-- Go to <https://app.sendgrid.com/email_activity>
-- Look for errors or bounces
+```bash
+docker compose exec django python -c "from django.conf import settings; print(settings.DEFAULT_FROM_EMAIL)"
+# Must be on a domain verified in SES (see services/aws/identities/)
+```
 
 **Check Django logs**:
 
 ```bash
-docker compose logs django --tail 100 | grep -i email
+docker compose logs django --tail 100 | grep -i -E "email|ses|anymail"
 ```
+
+**Check SES account state** (from a machine with operator AWS creds):
+
+```bash
+aws sesv2 get-account --region us-east-1 --query '{ProductionAccess: ProductionAccessEnabled, SendingEnabled: SendingEnabled, EnforcementStatus: EnforcementStatus}'
+```
+
+If `EnforcementStatus` is anything other than `HEALTHY`, SES has paused sending due to reputation issues — check the SNS feedback inbox.
 
 **Common errors**:
 
-- **401 Unauthorized**: Invalid API key
-- **403 Forbidden**: API key missing permissions
-- **Domain not verified**: Verify your sender domain in SendGrid
+- **`AccessDeniedException` on `ses:SendEmail`**: IAM policy too narrow — the `ses-sender` user must have both the identity ARN AND the configuration-set ARN in its `Resource` list, and the From: address must match the `ses:FromAddress` condition.
+- **`MessageRejected: Email address is not verified`**: The account is still in SES sandbox — verify recipients individually or request production access via `services/aws/scripts/50-request-production.sh`.
+- **`MailFromDomainNotVerified`**: Custom MAIL FROM (`bounces.<domain>`) not yet verified — re-run `services/aws/scripts/20-check-verification.sh <domain>`.
+- **`The config profile () could not be found`**: A subprocess set `AWS_PROFILE=""` instead of unsetting it. Use `env -u AWS_PROFILE`.
+- **Mail goes out but recipients report it lands in spam**: Check Gmail's `Authentication-Results` header on a real send — you want `dkim=pass spf=pass dmarc=pass`. Failures usually trace to DNS records at Cloudflare with proxy ON instead of OFF.
 
 ### Celery Tasks Not Running
 
@@ -639,5 +681,5 @@ This flow ensures:
 - ✅ User registration creates OTP
 - ✅ Email sent asynchronously via Celery
 - ✅ HTML and plain text versions included
-- ✅ Email captured in Mailpit (local) or sent via SendGrid (production)
+- ✅ Email captured in Mailpit (local) or sent via AWS SES (production)
 - ✅ Comprehensive test coverage

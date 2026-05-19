@@ -212,7 +212,7 @@ dependencies = [
     "celery==5.5.3",
     "collectfasta==3.3.1",
     "django==5.2.7",
-    "django-anymail[sendgrid]==13.1",
+    "django-anymail[amazon-ses]==13.1",
     "django-celery-beat==2.8.1",
     "django-cors-headers==4.9.0",
     "django-environ==0.12.0",

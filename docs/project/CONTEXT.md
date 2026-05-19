@@ -56,7 +56,7 @@ The user wants VERY strict TypeScript. The tsconfig.json has all strict flags en
 
 1. **Testing**: TDD approach with pytest (Django) and Vitest (Vue)
 2. **Type Safety**: Full typing, no `any` types allowed
-3. **Django Stack**: DRF, Celery, Redis, PostgreSQL, SendGrid via Anymail
+3. **Django Stack**: DRF, Celery, Redis, PostgreSQL, AWS SES via Anymail
 4. **Deployment**: Hetzner (PaaS)
 5. **Development**: Docker-based with docker-compose.local.yml
 

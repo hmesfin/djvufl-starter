@@ -50,7 +50,7 @@ backend/
 - `base.py`: Shared settings for all environments
 - `local.py`: Development settings (DEBUG=True, Mailpit, etc.)
 - `test.py`: Test settings (in-memory caches, eager Celery, etc.)
-- `production.py`: Production settings (S3, SendGrid, etc.)
+- `production.py`: Production settings (S3, AWS SES, etc.)
 
 **Key settings to know**:
 - `DATABASES["default"]["ATOMIC_REQUESTS"] = True`: Every request wrapped in transaction (see DEBUG_DOGMA.md for rollback patterns)

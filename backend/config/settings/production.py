@@ -145,11 +145,18 @@ ADMIN_URL = env("DJANGO_ADMIN_URL")
 INSTALLED_APPS += ["anymail"]
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
-# https://anymail.readthedocs.io/en/stable/esps/sendgrid/
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+# https://anymail.dev/en/stable/esps/amazon_ses/
+EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 ANYMAIL = {
-    "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
-    "SENDGRID_API_URL": env("SENDGRID_API_URL", default="https://api.sendgrid.com/v3/"),
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "region_name": env("DJANGO_AWS_SES_REGION_NAME", default="us-east-1"),
+        "aws_access_key_id": env("DJANGO_AWS_SES_ACCESS_KEY_ID"),
+        "aws_secret_access_key": env("DJANGO_AWS_SES_SECRET_ACCESS_KEY"),
+    },
+    "AMAZON_SES_CONFIGURATION_SET_NAME": env(
+        "DJANGO_AWS_SES_CONFIGURATION_SET",
+        default="default-feedback",
+    ),
 }
 
 # Collectfasta
