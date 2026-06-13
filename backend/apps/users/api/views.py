@@ -16,8 +16,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from apps.users.models import EmailVerificationOTP
-from apps.users.models import User
+from apps.users.models import EmailVerificationOTP, User
 from apps.users.tasks import send_otp_email
 
 from .serializers import EmailTokenObtainPairSerializer

@@ -20,10 +20,7 @@ final authServiceProvider = Provider<AuthService>((ref) {
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   final authService = ref.watch(authServiceProvider);
-  return AuthRepository(
-    dioClient: dioClient,
-    authService: authService,
-  );
+  return AuthRepository(dioClient: dioClient, authService: authService);
 });
 
 /// Auth state notifier
@@ -111,7 +108,9 @@ class AuthNotifier extends StateNotifier<AsyncValue<AuthState>> {
   }
 
   /// Confirm password reset
-  Future<void> confirmPasswordReset(PasswordResetOtpConfirmRequest request) async {
+  Future<void> confirmPasswordReset(
+    PasswordResetOtpConfirmRequest request,
+  ) async {
     try {
       await _repository.confirmPasswordReset(request);
     } catch (e, st) {
@@ -122,10 +121,11 @@ class AuthNotifier extends StateNotifier<AsyncValue<AuthState>> {
 }
 
 /// Auth state provider
-final authStateProvider = StateNotifierProvider<AuthNotifier, AsyncValue<AuthState>>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return AuthNotifier(repository);
-});
+final authStateProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<AuthState>>((ref) {
+      final repository = ref.watch(authRepositoryProvider);
+      return AuthNotifier(repository);
+    });
 
 /// Convenience provider to check if user is authenticated
 final isAuthenticatedProvider = Provider<bool>((ref) {

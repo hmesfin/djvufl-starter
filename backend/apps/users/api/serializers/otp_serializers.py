@@ -5,8 +5,7 @@ from typing import Any
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.users.models import EmailVerificationOTP
-from apps.users.models import User
+from apps.users.models import EmailVerificationOTP, User
 from apps.users.tasks import send_otp_email
 
 

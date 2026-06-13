@@ -12,12 +12,18 @@ class ApiConfig {
   /// Get the API base URL based on environment and platform
   static String getApiBaseUrl() {
     if (kDebugMode) {
-      // Development environment - use localhost or configurable development URL
-      // This should be configured via environment variables or build flavors
-      return const String.fromEnvironment(
+      // Development environment - try to get API URL from environment, otherwise use platform-specific defaults
+      final apiUrl = const String.fromEnvironment(
         'API_BASE_URL',
-        defaultValue: 'http://localhost:8000',
+        defaultValue: '',
       );
+
+      if (apiUrl.isNotEmpty) {
+        return apiUrl;
+      }
+
+      // Platform-specific fallbacks
+      return 'http://10.0.2.2:8000'; // Android emulator special IP to access host
     }
 
     // Production - replace with your production API URL
@@ -27,8 +33,6 @@ class ApiConfig {
       defaultValue: 'https://api.yourdomain.com',
     );
   }
-
-  static const String apiBaseUrl = ''; // Use getApiBaseUrl() instead
 
   /// API timeout in milliseconds
   static const Duration apiTimeout = Duration(seconds: 30);

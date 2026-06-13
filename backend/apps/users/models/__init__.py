@@ -1,13 +1,14 @@
 """Users app models."""
 
-from .base_otp import BaseOTPModel
 from .otp import EmailVerificationOTP
 from .otp import PasswordResetOTP
 from .otp import PasswordResetToken
 from .users import User
 
+# BaseOTPModel is not exported to avoid circular imports
+# It's used internally by the OTP models only
+
 __all__ = [
-    "BaseOTPModel",
     "EmailVerificationOTP",
     "PasswordResetOTP",
     "PasswordResetToken",

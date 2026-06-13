@@ -352,3 +352,6 @@ compose/production/postgres/maintenance/_sourced/constants.sh
 
 # Git worktrees (isolated feature branches)
 .worktrees/
+
+# claude-mem auto-generated nested context
+backend/apps/CLAUDE.md
