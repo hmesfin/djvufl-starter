@@ -32,7 +32,11 @@ class EmailVerificationOTP(BaseOTPModel, BaseModel):
         verbose_name = _("Email Verification OTP")
         verbose_name_plural = _("Email Verification OTPs")
         ordering = ["-created"]
+        # Django does NOT merge Meta.indexes across inheritance — a child that
+        # redefines `indexes` replaces the parent's list. Spread the base
+        # indexes (code/is_used) so OTP-by-code lookups stay indexed.
         indexes = [
+            *BaseOTPModel.Meta.indexes,
             models.Index(fields=["user", "-created"]),
         ]
 
@@ -61,7 +65,9 @@ class PasswordResetOTP(BaseOTPModel, BaseModel):
         verbose_name = _("Password Reset OTP")
         verbose_name_plural = _("Password Reset OTPs")
         ordering = ["-created"]
+        # See EmailVerificationOTP.Meta — preserve the base code/is_used index.
         indexes = [
+            *BaseOTPModel.Meta.indexes,
             models.Index(fields=["user", "-created"]),
         ]
 
