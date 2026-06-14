@@ -346,8 +346,11 @@ quality-gates.sh
 # ODS configuration files
 quality-config.json
 
-# ODS system directory - contains local developer templates and infrastructure
-.claude/
+# .claude/ ships the public planning system (commands, templates, guide).
+# Ignore only local/ephemeral developer artifacts, not the curated files.
+.claude/settings.local.json
+.claude/**/*.local.json
+.claude/**/.agent-state.json
 compose/production/postgres/maintenance/_sourced/constants.sh
 
 # Git worktrees (isolated feature branches)
