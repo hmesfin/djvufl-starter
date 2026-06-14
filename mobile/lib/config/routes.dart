@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../features/auth/presentation/providers/auth_provider.dart';
-import '../features/auth/data/models/auth_state.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/otp_verification_screen.dart';
@@ -34,48 +33,63 @@ class AppRoutes {
   static const String uuidParam = 'uuid';
 }
 
+/// Pure auth-redirect policy.
+///
+/// Extracted from the router so it can be unit-tested without a running app.
+/// Returns the path to redirect to, or `null` to stay on [location].
+String? authRedirect({
+  required bool isAuthenticated,
+  required String location,
+}) {
+  final isAuthRoute =
+      location == AppRoutes.login ||
+      location == AppRoutes.register ||
+      location.startsWith(AppRoutes.otpVerification);
+
+  // Unauthenticated users can only reach the auth screens.
+  if (!isAuthenticated && !isAuthRoute) {
+    return AppRoutes.login;
+  }
+
+  // Authenticated users shouldn't sit on the auth screens.
+  if (isAuthenticated && isAuthRoute) {
+    return AppRoutes.home;
+  }
+
+  return null;
+}
+
+/// Bridges Riverpod auth-state changes into a [Listenable] that go_router can
+/// use to re-evaluate its redirect — WITHOUT the GoRouter being recreated.
+class _AuthRefreshNotifier extends ChangeNotifier {
+  _AuthRefreshNotifier(Ref ref) {
+    ref.listen(authStateProvider, (_, _) => notifyListeners());
+  }
+}
+
 /// Go Router provider
 ///
-/// Creates the router with auth state awareness.
+/// The router is built ONCE and lives for the app's lifetime. Auth-state
+/// changes drive redirect re-evaluation via the router's `refreshListenable`
+/// instead of rebuilding the whole GoRouter — the previous approach
+/// (`ref.watch(authStateProvider)`) recreated the router on every auth change,
+/// which reset navigation to the initial route and bounced authenticated users
+/// out of deep screens.
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final authStateAsync = ref.watch(authStateProvider);
-  final authState = authStateAsync.when(
-    data: (data) => data,
-    error: (error, stack) => const AuthState(
-      isAuthenticated: false,
-      user: null,
-      accessToken: null,
-      refreshToken: null,
-    ),
-    loading: () => const AuthState(
-      isAuthenticated: false,
-      user: null,
-      accessToken: null,
-      refreshToken: null,
-    ),
-  );
+  final refreshNotifier = _AuthRefreshNotifier(ref);
+  ref.onDispose(refreshNotifier.dispose);
 
   return GoRouter(
     initialLocation: AppRoutes.login,
+    refreshListenable: refreshNotifier,
     redirect: (context, state) {
-      final isAuthenticated = authState.isAuthenticated;
-      final location = state.matchedLocation;
-      final isLoggingIn =
-          location == AppRoutes.login ||
-          location == AppRoutes.register ||
-          location.startsWith(AppRoutes.otpVerification);
-
-      // Unauthenticated users can only reach the auth screens.
-      if (!isAuthenticated && !isLoggingIn) {
-        return AppRoutes.login;
-      }
-
-      // Authenticated users shouldn't sit on the auth screens.
-      if (isAuthenticated && isLoggingIn) {
-        return AppRoutes.home;
-      }
-
-      return null;
+      // Read (not watch) at evaluation time; refreshListenable drives re-eval.
+      final isAuthenticated =
+          ref.read(authStateProvider).value?.isAuthenticated ?? false;
+      return authRedirect(
+        isAuthenticated: isAuthenticated,
+        location: state.matchedLocation,
+      );
     },
     routes: [
       // Login route
