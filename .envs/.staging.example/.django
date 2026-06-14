@@ -22,7 +22,9 @@ DJANGO_DEFAULT_FROM_EMAIL=
 DJANGO_AWS_SES_ACCESS_KEY_ID=
 DJANGO_AWS_SES_SECRET_ACCESS_KEY=
 DJANGO_AWS_SES_REGION_NAME=us-east-1
-DJANGO_AWS_SES_CONFIGURATION_SET=default-feedback
+# Optional — only set if this configuration set already exists in your SES
+# account (otherwise every send is rejected). Leave blank to send without one.
+DJANGO_AWS_SES_CONFIGURATION_SET=
 
 
 # AWS (S3 / storage — separate IAM user from SES above)

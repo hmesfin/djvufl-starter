@@ -153,11 +153,13 @@ ANYMAIL = {
         "aws_access_key_id": env("DJANGO_AWS_SES_ACCESS_KEY_ID"),
         "aws_secret_access_key": env("DJANGO_AWS_SES_SECRET_ACCESS_KEY"),
     },
-    "AMAZON_SES_CONFIGURATION_SET_NAME": env(
-        "DJANGO_AWS_SES_CONFIGURATION_SET",
-        default="default-feedback",
-    ),
 }
+# Bind a configuration set only when one is provided. Referencing a
+# configuration set that doesn't exist in the SES account makes every send
+# fail, so this stays opt-in via DJANGO_AWS_SES_CONFIGURATION_SET.
+_ses_configuration_set = env("DJANGO_AWS_SES_CONFIGURATION_SET", default="")
+if _ses_configuration_set:
+    ANYMAIL["AMAZON_SES_CONFIGURATION_SET_NAME"] = _ses_configuration_set
 
 # Collectfasta
 # ------------------------------------------------------------------------------
