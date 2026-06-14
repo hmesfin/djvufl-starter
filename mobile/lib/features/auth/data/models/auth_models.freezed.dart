@@ -25,7 +25,9 @@ UserRegistrationRequest _$UserRegistrationRequestFromJson(
 mixin _$UserRegistrationRequest {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
   String get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
   String get lastName => throw _privateConstructorUsedError;
 
   /// Serializes this UserRegistrationRequest to a JSON map.
@@ -45,7 +47,12 @@ abstract class $UserRegistrationRequestCopyWith<$Res> {
     $Res Function(UserRegistrationRequest) then,
   ) = _$UserRegistrationRequestCopyWithImpl<$Res, UserRegistrationRequest>;
   @useResult
-  $Res call({String email, String password, String firstName, String lastName});
+  $Res call({
+    String email,
+    String password,
+    @JsonKey(name: 'first_name') String firstName,
+    @JsonKey(name: 'last_name') String lastName,
+  });
 }
 
 /// @nodoc
@@ -104,7 +111,12 @@ abstract class _$$UserRegistrationRequestImplCopyWith<$Res>
   ) = __$$UserRegistrationRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String password, String firstName, String lastName});
+  $Res call({
+    String email,
+    String password,
+    @JsonKey(name: 'first_name') String firstName,
+    @JsonKey(name: 'last_name') String lastName,
+  });
 }
 
 /// @nodoc
@@ -159,8 +171,8 @@ class _$UserRegistrationRequestImpl implements _UserRegistrationRequest {
   const _$UserRegistrationRequestImpl({
     required this.email,
     required this.password,
-    required this.firstName,
-    required this.lastName,
+    @JsonKey(name: 'first_name') required this.firstName,
+    @JsonKey(name: 'last_name') required this.lastName,
   });
 
   factory _$UserRegistrationRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -171,8 +183,10 @@ class _$UserRegistrationRequestImpl implements _UserRegistrationRequest {
   @override
   final String password;
   @override
+  @JsonKey(name: 'first_name')
   final String firstName;
   @override
+  @JsonKey(name: 'last_name')
   final String lastName;
 
   @override
@@ -220,8 +234,8 @@ abstract class _UserRegistrationRequest implements UserRegistrationRequest {
   const factory _UserRegistrationRequest({
     required final String email,
     required final String password,
-    required final String firstName,
-    required final String lastName,
+    @JsonKey(name: 'first_name') required final String firstName,
+    @JsonKey(name: 'last_name') required final String lastName,
   }) = _$UserRegistrationRequestImpl;
 
   factory _UserRegistrationRequest.fromJson(Map<String, dynamic> json) =
@@ -232,8 +246,10 @@ abstract class _UserRegistrationRequest implements UserRegistrationRequest {
   @override
   String get password;
   @override
+  @JsonKey(name: 'first_name')
   String get firstName;
   @override
+  @JsonKey(name: 'last_name')
   String get lastName;
 
   /// Create a copy of UserRegistrationRequest
@@ -422,6 +438,7 @@ OtpVerificationRequest _$OtpVerificationRequestFromJson(
 /// @nodoc
 mixin _$OtpVerificationRequest {
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'code')
   String get otpCode => throw _privateConstructorUsedError;
 
   /// Serializes this OtpVerificationRequest to a JSON map.
@@ -441,7 +458,7 @@ abstract class $OtpVerificationRequestCopyWith<$Res> {
     $Res Function(OtpVerificationRequest) then,
   ) = _$OtpVerificationRequestCopyWithImpl<$Res, OtpVerificationRequest>;
   @useResult
-  $Res call({String email, String otpCode});
+  $Res call({String email, @JsonKey(name: 'code') String otpCode});
 }
 
 /// @nodoc
@@ -487,7 +504,7 @@ abstract class _$$OtpVerificationRequestImplCopyWith<$Res>
   ) = __$$OtpVerificationRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String otpCode});
+  $Res call({String email, @JsonKey(name: 'code') String otpCode});
 }
 
 /// @nodoc
@@ -525,7 +542,7 @@ class __$$OtpVerificationRequestImplCopyWithImpl<$Res>
 class _$OtpVerificationRequestImpl implements _OtpVerificationRequest {
   const _$OtpVerificationRequestImpl({
     required this.email,
-    required this.otpCode,
+    @JsonKey(name: 'code') required this.otpCode,
   });
 
   factory _$OtpVerificationRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -534,6 +551,7 @@ class _$OtpVerificationRequestImpl implements _OtpVerificationRequest {
   @override
   final String email;
   @override
+  @JsonKey(name: 'code')
   final String otpCode;
 
   @override
@@ -575,7 +593,7 @@ class _$OtpVerificationRequestImpl implements _OtpVerificationRequest {
 abstract class _OtpVerificationRequest implements OtpVerificationRequest {
   const factory _OtpVerificationRequest({
     required final String email,
-    required final String otpCode,
+    @JsonKey(name: 'code') required final String otpCode,
   }) = _$OtpVerificationRequestImpl;
 
   factory _OtpVerificationRequest.fromJson(Map<String, dynamic> json) =
@@ -584,6 +602,7 @@ abstract class _OtpVerificationRequest implements OtpVerificationRequest {
   @override
   String get email;
   @override
+  @JsonKey(name: 'code')
   String get otpCode;
 
   /// Create a copy of OtpVerificationRequest
@@ -922,6 +941,7 @@ PasswordResetOtpConfirmRequest _$PasswordResetOtpConfirmRequestFromJson(
 /// @nodoc
 mixin _$PasswordResetOtpConfirmRequest {
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'code')
   String get otpCode => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
@@ -946,7 +966,11 @@ abstract class $PasswordResetOtpConfirmRequestCopyWith<$Res> {
         PasswordResetOtpConfirmRequest
       >;
   @useResult
-  $Res call({String email, String otpCode, String password});
+  $Res call({
+    String email,
+    @JsonKey(name: 'code') String otpCode,
+    String password,
+  });
 }
 
 /// @nodoc
@@ -1000,7 +1024,11 @@ abstract class _$$PasswordResetOtpConfirmRequestImplCopyWith<$Res>
   ) = __$$PasswordResetOtpConfirmRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String otpCode, String password});
+  $Res call({
+    String email,
+    @JsonKey(name: 'code') String otpCode,
+    String password,
+  });
 }
 
 /// @nodoc
@@ -1050,7 +1078,7 @@ class _$PasswordResetOtpConfirmRequestImpl
     implements _PasswordResetOtpConfirmRequest {
   const _$PasswordResetOtpConfirmRequestImpl({
     required this.email,
-    required this.otpCode,
+    @JsonKey(name: 'code') required this.otpCode,
     required this.password,
   });
 
@@ -1061,6 +1089,7 @@ class _$PasswordResetOtpConfirmRequestImpl
   @override
   final String email;
   @override
+  @JsonKey(name: 'code')
   final String otpCode;
   @override
   final String password;
@@ -1108,7 +1137,7 @@ abstract class _PasswordResetOtpConfirmRequest
     implements PasswordResetOtpConfirmRequest {
   const factory _PasswordResetOtpConfirmRequest({
     required final String email,
-    required final String otpCode,
+    @JsonKey(name: 'code') required final String otpCode,
     required final String password,
   }) = _$PasswordResetOtpConfirmRequestImpl;
 
@@ -1118,6 +1147,7 @@ abstract class _PasswordResetOtpConfirmRequest
   @override
   String get email;
   @override
+  @JsonKey(name: 'code')
   String get otpCode;
   @override
   String get password;
@@ -1307,9 +1337,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserModel {
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
   String get firstName => throw _privateConstructorUsedError;
-  String get lastName => throw _privateConstructorUsedError;
-  bool get isEmailVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
+  String get lastName => throw _privateConstructorUsedError; // The /api/users/me/ UserSerializer does not expose this field, so it must
+  // default rather than be required (else fromJson throws on a missing key).
+  @JsonKey(name: 'is_email_verified')
+  bool get isEmailVerified => throw _privateConstructorUsedError; // Backend field is `avatar`.
+  @JsonKey(name: 'avatar')
   String? get profilePicture => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
@@ -1329,10 +1364,10 @@ abstract class $UserModelCopyWith<$Res> {
   @useResult
   $Res call({
     String email,
-    String firstName,
-    String lastName,
-    bool isEmailVerified,
-    String? profilePicture,
+    @JsonKey(name: 'first_name') String firstName,
+    @JsonKey(name: 'last_name') String lastName,
+    @JsonKey(name: 'is_email_verified') bool isEmailVerified,
+    @JsonKey(name: 'avatar') String? profilePicture,
   });
 }
 
@@ -1396,10 +1431,10 @@ abstract class _$$UserModelImplCopyWith<$Res>
   @useResult
   $Res call({
     String email,
-    String firstName,
-    String lastName,
-    bool isEmailVerified,
-    String? profilePicture,
+    @JsonKey(name: 'first_name') String firstName,
+    @JsonKey(name: 'last_name') String lastName,
+    @JsonKey(name: 'is_email_verified') bool isEmailVerified,
+    @JsonKey(name: 'avatar') String? profilePicture,
   });
 }
 
@@ -1455,10 +1490,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
 class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl({
     required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.isEmailVerified,
-    this.profilePicture,
+    @JsonKey(name: 'first_name') required this.firstName,
+    @JsonKey(name: 'last_name') required this.lastName,
+    @JsonKey(name: 'is_email_verified') this.isEmailVerified = false,
+    @JsonKey(name: 'avatar') this.profilePicture,
   });
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -1467,12 +1502,19 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String email;
   @override
+  @JsonKey(name: 'first_name')
   final String firstName;
   @override
+  @JsonKey(name: 'last_name')
   final String lastName;
+  // The /api/users/me/ UserSerializer does not expose this field, so it must
+  // default rather than be required (else fromJson throws on a missing key).
   @override
+  @JsonKey(name: 'is_email_verified')
   final bool isEmailVerified;
+  // Backend field is `avatar`.
   @override
+  @JsonKey(name: 'avatar')
   final String? profilePicture;
 
   @override
@@ -1524,10 +1566,10 @@ class _$UserModelImpl implements _UserModel {
 abstract class _UserModel implements UserModel {
   const factory _UserModel({
     required final String email,
-    required final String firstName,
-    required final String lastName,
-    required final bool isEmailVerified,
-    final String? profilePicture,
+    @JsonKey(name: 'first_name') required final String firstName,
+    @JsonKey(name: 'last_name') required final String lastName,
+    @JsonKey(name: 'is_email_verified') final bool isEmailVerified,
+    @JsonKey(name: 'avatar') final String? profilePicture,
   }) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -1536,12 +1578,17 @@ abstract class _UserModel implements UserModel {
   @override
   String get email;
   @override
+  @JsonKey(name: 'first_name')
   String get firstName;
   @override
-  String get lastName;
+  @JsonKey(name: 'last_name')
+  String get lastName; // The /api/users/me/ UserSerializer does not expose this field, so it must
+  // default rather than be required (else fromJson throws on a missing key).
   @override
-  bool get isEmailVerified;
+  @JsonKey(name: 'is_email_verified')
+  bool get isEmailVerified; // Backend field is `avatar`.
   @override
+  @JsonKey(name: 'avatar')
   String? get profilePicture;
 
   /// Create a copy of UserModel

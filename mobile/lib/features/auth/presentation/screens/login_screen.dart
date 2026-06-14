@@ -42,6 +42,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
 
     if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _errorMessage = 'Please fill in all fields correctly.';
+      });
       return;
     }
 
@@ -56,23 +59,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     try {
       await ref.read(authStateProvider.notifier).login(request);
+      // On success, the go_router redirect navigates to home based on the
+      // updated auth state — no imperative navigation needed here.
       if (mounted) {
-        // Navigation will be handled by router based on auth state
         setState(() {
           _errorMessage = null;
         });
       }
     } on AppException catch (e) {
-      setState(() {
-        _errorMessage = e.failure.when(
-          network: (message, _) => message,
-          auth: (message) => message,
-          validation: (message, _) => message,
-          notFound: (message) => message,
-          server: (message, _) => message,
-          unknown: (message, _) => message,
-        );
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.failure.when(
+            network: (message, _) => message,
+            auth: (message) => message,
+            validation: (message, _) => message,
+            notFound: (message) => message,
+            server: (message, _) => message,
+            unknown: (message, _) => message,
+          );
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'An unexpected error occurred.';
+        });
+      }
     }
   }
 

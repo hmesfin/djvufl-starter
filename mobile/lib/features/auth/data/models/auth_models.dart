@@ -3,14 +3,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_models.freezed.dart';
 part 'auth_models.g.dart';
 
+// ignore_for_file: invalid_annotation_target
+
 /// User registration request
 @freezed
 class UserRegistrationRequest with _$UserRegistrationRequest {
   const factory UserRegistrationRequest({
     required String email,
     required String password,
-    required String firstName,
-    required String lastName,
+    @JsonKey(name: 'first_name') required String firstName,
+    @JsonKey(name: 'last_name') required String lastName,
   }) = _UserRegistrationRequest;
 
   factory UserRegistrationRequest.fromJson(Map<String, dynamic> json) =>
@@ -34,7 +36,7 @@ class LoginRequest with _$LoginRequest {
 class OtpVerificationRequest with _$OtpVerificationRequest {
   const factory OtpVerificationRequest({
     required String email,
-    required String otpCode,
+    @JsonKey(name: 'code') required String otpCode,
   }) = _OtpVerificationRequest;
 
   factory OtpVerificationRequest.fromJson(Map<String, dynamic> json) =>
@@ -66,7 +68,7 @@ class PasswordResetOtpRequest with _$PasswordResetOtpRequest {
 class PasswordResetOtpConfirmRequest with _$PasswordResetOtpConfirmRequest {
   const factory PasswordResetOtpConfirmRequest({
     required String email,
-    required String otpCode,
+    @JsonKey(name: 'code') required String otpCode,
     required String password,
   }) = _PasswordResetOtpConfirmRequest;
 
@@ -91,10 +93,13 @@ class AuthResponse with _$AuthResponse {
 class UserModel with _$UserModel {
   const factory UserModel({
     required String email,
-    required String firstName,
-    required String lastName,
-    required bool isEmailVerified,
-    String? profilePicture,
+    @JsonKey(name: 'first_name') required String firstName,
+    @JsonKey(name: 'last_name') required String lastName,
+    // The /api/users/me/ UserSerializer does not expose this field, so it must
+    // default rather than be required (else fromJson throws on a missing key).
+    @JsonKey(name: 'is_email_verified') @Default(false) bool isEmailVerified,
+    // Backend field is `avatar`.
+    @JsonKey(name: 'avatar') String? profilePicture,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

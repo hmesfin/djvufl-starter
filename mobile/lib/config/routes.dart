@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../features/auth/presentation/providers/auth_provider.dart';
+import '../features/auth/data/models/auth_state.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/otp_verification_screen.dart';
@@ -37,23 +38,39 @@ class AppRoutes {
 ///
 /// Creates the router with auth state awareness.
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateProvider);
+  final authStateAsync = ref.watch(authStateProvider);
+  final authState = authStateAsync.when(
+    data: (data) => data,
+    error: (error, stack) => const AuthState(
+      isAuthenticated: false,
+      user: null,
+      accessToken: null,
+      refreshToken: null,
+    ),
+    loading: () => const AuthState(
+      isAuthenticated: false,
+      user: null,
+      accessToken: null,
+      refreshToken: null,
+    ),
+  );
 
   return GoRouter(
     initialLocation: AppRoutes.login,
     redirect: (context, state) {
-      final isAuthenticated = authState.value?.isAuthenticated ?? false;
+      final isAuthenticated = authState.isAuthenticated;
+      final location = state.matchedLocation;
       final isLoggingIn =
-          state.matchedLocation == AppRoutes.login ||
-          state.matchedLocation == AppRoutes.register ||
-          state.matchedLocation.startsWith(AppRoutes.otpVerification);
+          location == AppRoutes.login ||
+          location == AppRoutes.register ||
+          location.startsWith(AppRoutes.otpVerification);
 
-      // Redirect unauthenticated users to login
+      // Unauthenticated users can only reach the auth screens.
       if (!isAuthenticated && !isLoggingIn) {
         return AppRoutes.login;
       }
 
-      // Redirect authenticated users to home
+      // Authenticated users shouldn't sit on the auth screens.
       if (isAuthenticated && isLoggingIn) {
         return AppRoutes.home;
       }
